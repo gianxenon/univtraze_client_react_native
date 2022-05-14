@@ -10,11 +10,15 @@ import {
 	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
+	Alert,
 } from "react-native";
 import { BottomSheet } from "react-native-btr";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
+import { CheckBox } from "react-native-elements";
 import { Checkbox } from "react-native-paper";
+
+const symptomdata = require("../Symptoms.json");
 
 const menu_jpg = {
 	uri: "https://firebasestorage.googleapis.com/v0/b/fir-phoneauth-74be7.appspot.com/o/menu.png?alt=media&token=e20ee94a-4632-467a-841c-c66659a2a3df",
@@ -63,8 +67,41 @@ const DailyAsessment = () => {
 	};
 	//end Notifications Variables
 
-	const [checked, setChecked] = React.useState(false);
+	const [fever, setFever] = useState(false);
+	const [cough, setCough] = useState(false);
+	const [soreThroat, setSoreThroat] = useState(false);
+	const [lossOfSmell, setLossOfSmell] = useState(false);
+	const [bodyPains, setBodyPains] = useState(false);
+	const [diarrhea, setDiarrhea] = useState(false);
+	const [breathingDiff, setbreathingDiff] = useState(false);
 
+	const symptomss = [];
+
+	const sumbitSymp = () => {
+		if (fever === true) {
+			symptomss.push("Fever");
+		}
+		if (cough === true) {
+			symptomss.push("cough");
+		}
+		if (soreThroat === true) {
+			symptomss.push("soreThroat");
+		}
+		if (lossOfSmell === true) {
+			symptomss.push("lossOfSmell");
+		}
+		if (bodyPains === true) {
+			symptomss.push("bodyPains");
+		}
+		if (diarrhea === true) {
+			symptomss.push("diarrhea");
+		}
+		if (breathingDiff === true) {
+			symptomss.push("breathingDiff");
+		}
+
+		Alert.alert("Your symptoms are " + symptomss.toString());
+	};
 	return (
 		<SafeAreaView>
 			<StatusBar animated={true} backgroundColor="#E1F5E4" />
@@ -459,7 +496,166 @@ const DailyAsessment = () => {
 					{/*end of botton sheet for notification */}
 				</View>
 				{/*End  Notification View */}
+
+				<View style={styles.bodyContainer}>
+					<View style={{ width: "100%", height: "20%", borderWidth: 2 }}>
+						<Text> Daily self {"\n"} assessment</Text>
+						<Text style={{ marginTop: 42 }}>
+							Do you have any of the following {"\n"}symptom/s ?
+						</Text>
+					</View>
+
+					<View style={{ width: "100%", height: "80%", borderWidth: 2 }}>
+						<CheckBox
+							title="Fever"
+							checked={fever}
+							onPress={() => setFever(!fever)}
+							checkedIcon={
+								<Image
+									source={require("../assets/checkedbox.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							uncheckedIcon={
+								<Image
+									source={require("../assets/uncheck.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							containerStyle={{
+								backgroundColor: "#E1F5E4",
+							}}
+						/>
+						<CheckBox
+							title="Cough or Colds"
+							checked={cough}
+							onPress={() => setCough(!cough)}
+							checkedIcon={
+								<Image
+									source={require("../assets/checkedbox.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							uncheckedIcon={
+								<Image
+									source={require("../assets/uncheck.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							containerStyle={{
+								backgroundColor: "#E1F5E4",
+							}}
+							
+						/>
+						<CheckBox
+							title="Sore Throat"
+							checked={soreThroat}
+							onPress={() => setSoreThroat(!soreThroat)}
+							checkedIcon={
+								<Image
+									source={require("../assets/checkedbox.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							uncheckedIcon={
+								<Image
+									source={require("../assets/uncheck.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							containerStyle={{
+								backgroundColor: "#E1F5E4",
+							}}
+							
+						/>
+						<CheckBox
+							title="Loss of smell or taste"
+							checked={lossOfSmell}
+							onPress={() => setLossOfSmell(!lossOfSmell)}
+							checkedIcon={
+								<Image
+									source={require("../assets/checkedbox.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							uncheckedIcon={
+								<Image
+									source={require("../assets/uncheck.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							containerStyle={{
+								backgroundColor: "#E1F5E4",
+							}}
+						
+						/>
+						<CheckBox
+							title="Body pains or fatigues"
+							checked={bodyPains}
+							onPress={() => setBodyPains(!bodyPains)}
+							checkedIcon={
+								<Image
+									source={require("../assets/checkedbox.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							uncheckedIcon={
+								<Image
+									source={require("../assets/uncheck.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							containerStyle={{
+								backgroundColor: "#E1F5E4",
+							}}
+							
+						/>
+						<CheckBox
+							title="Diarrhea"
+							checked={diarrhea}
+							onPress={() => setDiarrhea(!diarrhea)}
+							checkedIcon={
+								<Image
+									source={require("../assets/checkedbox.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							uncheckedIcon={
+								<Image
+									source={require("../assets/uncheck.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							containerStyle={{
+								backgroundColor: "#E1F5E4",
+							}}
+							
+						/>
+						<CheckBox
+							title="Breathing difficulties"
+							checked={breathingDiff}
+							onPress={() => setbreathingDiff(!breathingDiff)}
+							checkedIcon={
+								<Image
+									source={require("../assets/checkedbox.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							uncheckedIcon={
+								<Image
+									source={require("../assets/uncheck.png")}
+									style={{ width: 30, height: 30 }}
+								/>
+							}
+							containerStyle={{
+								backgroundColor: "#E1F5E4",
+							}}
+							
+						/>
+					</View>
+				</View>
 			</View>
+			{/* End of container */}
 		</SafeAreaView>
 	);
 };
@@ -469,16 +665,15 @@ export default DailyAsessment;
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "#E1F5E4",
+		paddingHorizontal: 40,
 	},
 	topContainer: {
 		zIndex: 1,
 		width: "100%",
-		height: 130,
+		height: "15%",
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		paddingStart: 40,
-		paddingEnd: 40,
 	},
 	menuLogo: {
 		height: "50%",
@@ -534,5 +729,11 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: "#28CD41",
+	},
+	// bodyContainer style
+	bodyContainer: {
+		width: "100%",
+		height: "85%",
+		paddingHorizontal: 5,
 	},
 });

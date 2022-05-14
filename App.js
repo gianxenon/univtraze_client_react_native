@@ -22,7 +22,7 @@ import DailyAsessment from './Components/DailyAsessment';
 export default function App() {
 
   const Stack = createNativeStackNavigator();
-
+ 
   return (
    <AuthProvider>
        <NavigationContainer>
