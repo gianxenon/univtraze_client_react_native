@@ -27,7 +27,7 @@ export default function App() {
    <AuthProvider>
        <NavigationContainer>
 
-          <Stack.Navigator initialRouteName='DailyAsessment'>
+          <Stack.Navigator initialRouteName='Dashboard'>
             <Stack.Screen options={{headerShown: false}} name="DailyAsessment" component={DailyAsessment} />
             <Stack.Screen options={{headerShown: false}} name="ReportEmergency" component={ReportEmergency} />
             <Stack.Screen options={{headerShown: false}} name="ReportCovidCase" component={ReportCovidCase} />
