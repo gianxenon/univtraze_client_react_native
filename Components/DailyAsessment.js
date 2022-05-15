@@ -139,6 +139,7 @@ const DailyAsessment = () => {
 											borderColor: "white",
 											elevation: 20,
 										}}
+										onPress={toggleNotifNavigationView}
 									>
 										{notificationCounts}
 									</Text>
@@ -440,73 +441,176 @@ const DailyAsessment = () => {
 										alignSelf: "center",
 									}}
 								>
+									{/* Daily self assessment   notification */}
 									<View
 										style={{
 											width: "100%",
 											height: 54,
-											backgroundColor: "#28CD41",
-											borderWidth: 2,
-											borderRadius: 10,
 											flexDirection: "row",
 											alignItems: "center",
 											marginBottom: 5,
+											alignContent: "center",
 										}}
 									>
 										<Image
-											source={dailyAssessment_icon}
+											source={require("../assets/dailyAssess_icon.png")}
 											resizeMode="contain"
 											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
+												width: 32,
+												height: 32,
 											}}
 										/>
-										<Text style={{ color: "white" }}>Dashboard</Text>
+										<View style={{ paddingLeft: 15 }}>
+											<Text
+												style={{
+													color: "black",
+													fontSize: 16,
+													fontWeight: "700",
+												}}
+											>
+												Daily self assessment
+											</Text>
+											<Text
+												style={{
+													color: "#364D39",
+													fontSize: 12,
+													fontWeight: "900",
+												}}
+											>
+												Just now
+											</Text>
+										</View>
 									</View>
 
+									{/* Profile updated notification */}
 									<View
 										style={{
 											width: "100%",
 											height: 54,
-											backgroundColor: "#28CD41",
-											borderWidth: 2,
-											borderRadius: 10,
 											flexDirection: "row",
 											alignItems: "center",
 											marginBottom: 5,
 										}}
 									>
-										<Image
-											source={dailyAssessment_icon}
-											resizeMode="contain"
+										<View
 											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
+												width: "100%",
+												height: 54,
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 5,
+												alignContent: "center",
 											}}
-										/>
-										<Text style={{ color: "white" }}>Dashboard</Text>
+										>
+											<Image
+												source={require("../assets/userInfoUpdate_icon.png")}
+												resizeMode="contain"
+												style={{
+													width: 32,
+													height: 32,
+												}}
+											/>
+											<View style={{ paddingLeft: 15 }}>
+												<Text
+													style={{
+														color: "black",
+														fontSize: 16,
+														fontWeight: "700",
+													}}
+												>
+													Profile updated successfully
+												</Text>
+												<Text
+													style={{
+														color: "#364D39",
+														fontSize: 12,
+														fontWeight: "900",
+													}}
+												>
+													Just now
+												</Text>
+											</View>
+										</View>
+									</View>
+									{/*Active cases  notification */}
+									<View
+										style={{
+											width: "100%",
+											height: 54,
+											flexDirection: "row",
+											alignItems: "center",
+											marginBottom: 5,
+										}}
+									>
+										<View
+											style={{
+												width: "100%",
+												height: 54,
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 5,
+												alignContent: "center",
+											}}
+										>
+											<Image
+												source={require("../assets/cases_icon.png")}
+												resizeMode="contain"
+												style={{
+													width: 32,
+													height: 32,
+												}}
+											/>
+											<View style={{ paddingLeft: 15 }}>
+												<Text
+													style={{
+														color: "black",
+														fontSize: 16,
+														fontWeight: "700",
+													}}
+												>
+													Active cases are now 20,890
+												</Text>
+												<Text
+													style={{
+														color: "#364D39",
+														fontSize: 12,
+														fontWeight: "900",
+													}}
+												>
+													Just now
+												</Text>
+											</View>
+										</View>
 									</View>
 								</View>
 							</View>
 						</View>
 					</BottomSheet>
-
 					{/*end of botton sheet for notification */}
 				</View>
 				{/*End  Notification View */}
-				<ScrollView showsVerticalScrollIndicator={false} >
+
+				{/* Start of Body Container */}
+				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={styles.bodyContainer}>
-						<View style={{ width: "100%", height: "25%",}}>
-							<Text style={{fontSize:28,fontWeight:"700"}}> Daily self {"\n"} assessment</Text>
-							<Text style={{ marginTop: 42,marginLeft:6 ,fontSize:16,fontWeight:"400"}}>
+						<View style={{ width: "100%", height: "25%" }}>
+							<Text style={{ fontSize: 28, fontWeight: "700" }}>
+								{" "}
+								Daily self {"\n"} assessment
+							</Text>
+							<Text
+								style={{
+									marginTop: 42,
+									marginLeft: 6,
+									fontSize: 16,
+									fontWeight: "400",
+								}}
+							>
 								Do you have any of the following {"\n"}symptom/s ?
 							</Text>
 						</View>
 
-						<View style={{ width: "100%", height: "75%"}}>
+						<View style={{ width: "100%", height: "75%" }}>
 							<CheckBox
 								title="Fever"
 								checked={fever}
@@ -525,8 +629,8 @@ const DailyAsessment = () => {
 								}
 								containerStyle={{
 									backgroundColor: "transparent",
-									borderColor:"transparent",
-									margin:0
+									borderColor: "transparent",
+									margin: 0,
 								}}
 							/>
 							<CheckBox
@@ -547,8 +651,8 @@ const DailyAsessment = () => {
 								}
 								containerStyle={{
 									backgroundColor: "transparent",
-									borderColor:"transparent",
-									margin:0
+									borderColor: "transparent",
+									margin: 0,
 								}}
 							/>
 							<CheckBox
@@ -569,8 +673,8 @@ const DailyAsessment = () => {
 								}
 								containerStyle={{
 									backgroundColor: "transparent",
-									borderColor:"transparent",
-									margin:0
+									borderColor: "transparent",
+									margin: 0,
 								}}
 							/>
 							<CheckBox
@@ -591,8 +695,8 @@ const DailyAsessment = () => {
 								}
 								containerStyle={{
 									backgroundColor: "transparent",
-									borderColor:"transparent",
-									margin:0
+									borderColor: "transparent",
+									margin: 0,
 								}}
 							/>
 							<CheckBox
@@ -613,8 +717,8 @@ const DailyAsessment = () => {
 								}
 								containerStyle={{
 									backgroundColor: "transparent",
-									borderColor:"transparent",
-									margin:0
+									borderColor: "transparent",
+									margin: 0,
 								}}
 							/>
 							<CheckBox
@@ -635,8 +739,8 @@ const DailyAsessment = () => {
 								}
 								containerStyle={{
 									backgroundColor: "transparent",
-									borderColor:"transparent",
-									margin:0
+									borderColor: "transparent",
+									margin: 0,
 								}}
 							/>
 							<CheckBox
@@ -656,22 +760,28 @@ const DailyAsessment = () => {
 									/>
 								}
 								containerStyle={{
-									backgroundColor: 'transparent',
-									borderColor:"transparent",
-									margin:0
+									backgroundColor: "transparent",
+									borderColor: "transparent",
+									margin: 0,
 								}}
 							/>
 							<TouchableOpacity
-								style={{ width: "100%", height: 60, backgroundColor: "#28CD41" ,borderRadius:15 ,justifyContent:'center',alignItems:'center', marginTop:30}}
+								style={{
+									width: "100%",
+									height: 60,
+									backgroundColor: "#28CD41",
+									borderRadius: 15,
+									justifyContent: "center",
+									alignItems: "center",
+									marginTop: 30,
+								}}
 								onPress={sumbitSymp}
 							>
-								<Text style={{color:'#FFFFFF', fontSize:16, fontWeight:'700'}}>Submit</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={{ width: "100%", height: 60, backgroundColor: "#28CD41" ,borderRadius:15 ,justifyContent:'center',alignItems:'center', marginTop:30}}
-								onPress={sumbitSymp}
-							>
-								<Text style={{color:'#FFFFFF', fontSize:16, fontWeight:'700'}}>Submit</Text>
+								<Text
+									style={{ color: "#FFFFFF", fontSize: 16, fontWeight: "700" }}
+								>
+									Submit
+								</Text>
 							</TouchableOpacity>
 						</View>
 					</View>
@@ -759,6 +869,6 @@ const styles = StyleSheet.create({
 		height: "auto",
 		paddingHorizontal: 5,
 		flexDirection: "column",
-		marginBottom:20
+		marginBottom: 20,
 	},
 });
