@@ -8,6 +8,7 @@ import {
 	Image,
 	Modal,
 	TextInput,
+	ScrollView,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Alert,
@@ -15,7 +16,7 @@ import {
 import { BottomSheet } from "react-native-btr";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
-import { CheckBox } from "react-native-elements";
+import { Button, CheckBox } from "react-native-elements";
 import { Checkbox } from "react-native-paper";
 
 const symptomdata = require("../Symptoms.json");
@@ -496,164 +497,185 @@ const DailyAsessment = () => {
 					{/*end of botton sheet for notification */}
 				</View>
 				{/*End  Notification View */}
+				<ScrollView showsVerticalScrollIndicator={false} >
+					<View style={styles.bodyContainer}>
+						<View style={{ width: "100%", height: "25%",}}>
+							<Text style={{fontSize:28,fontWeight:"700"}}> Daily self {"\n"} assessment</Text>
+							<Text style={{ marginTop: 42,marginLeft:6 ,fontSize:16,fontWeight:"400"}}>
+								Do you have any of the following {"\n"}symptom/s ?
+							</Text>
+						</View>
 
-				<View style={styles.bodyContainer}>
-					<View style={{ width: "100%", height: "20%", borderWidth: 2 }}>
-						<Text> Daily self {"\n"} assessment</Text>
-						<Text style={{ marginTop: 42 }}>
-							Do you have any of the following {"\n"}symptom/s ?
-						</Text>
+						<View style={{ width: "100%", height: "75%"}}>
+							<CheckBox
+								title="Fever"
+								checked={fever}
+								onPress={() => setFever(!fever)}
+								checkedIcon={
+									<Image
+										source={require("../assets/checkedbox.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								uncheckedIcon={
+									<Image
+										source={require("../assets/uncheck.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								containerStyle={{
+									backgroundColor: "transparent",
+									borderColor:"transparent",
+									margin:0
+								}}
+							/>
+							<CheckBox
+								title="Cough or Colds"
+								checked={cough}
+								onPress={() => setCough(!cough)}
+								checkedIcon={
+									<Image
+										source={require("../assets/checkedbox.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								uncheckedIcon={
+									<Image
+										source={require("../assets/uncheck.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								containerStyle={{
+									backgroundColor: "transparent",
+									borderColor:"transparent",
+									margin:0
+								}}
+							/>
+							<CheckBox
+								title="Sore Throat"
+								checked={soreThroat}
+								onPress={() => setSoreThroat(!soreThroat)}
+								checkedIcon={
+									<Image
+										source={require("../assets/checkedbox.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								uncheckedIcon={
+									<Image
+										source={require("../assets/uncheck.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								containerStyle={{
+									backgroundColor: "transparent",
+									borderColor:"transparent",
+									margin:0
+								}}
+							/>
+							<CheckBox
+								title="Loss of smell or taste"
+								checked={lossOfSmell}
+								onPress={() => setLossOfSmell(!lossOfSmell)}
+								checkedIcon={
+									<Image
+										source={require("../assets/checkedbox.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								uncheckedIcon={
+									<Image
+										source={require("../assets/uncheck.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								containerStyle={{
+									backgroundColor: "transparent",
+									borderColor:"transparent",
+									margin:0
+								}}
+							/>
+							<CheckBox
+								title="Body pains or fatigues"
+								checked={bodyPains}
+								onPress={() => setBodyPains(!bodyPains)}
+								checkedIcon={
+									<Image
+										source={require("../assets/checkedbox.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								uncheckedIcon={
+									<Image
+										source={require("../assets/uncheck.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								containerStyle={{
+									backgroundColor: "transparent",
+									borderColor:"transparent",
+									margin:0
+								}}
+							/>
+							<CheckBox
+								title="Diarrhea"
+								checked={diarrhea}
+								onPress={() => setDiarrhea(!diarrhea)}
+								checkedIcon={
+									<Image
+										source={require("../assets/checkedbox.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								uncheckedIcon={
+									<Image
+										source={require("../assets/uncheck.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								containerStyle={{
+									backgroundColor: "transparent",
+									borderColor:"transparent",
+									margin:0
+								}}
+							/>
+							<CheckBox
+								title="Breathing difficulties"
+								checked={breathingDiff}
+								onPress={() => setbreathingDiff(!breathingDiff)}
+								checkedIcon={
+									<Image
+										source={require("../assets/checkedbox.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								uncheckedIcon={
+									<Image
+										source={require("../assets/uncheck.png")}
+										style={{ width: 30, height: 30 }}
+									/>
+								}
+								containerStyle={{
+									backgroundColor: 'transparent',
+									borderColor:"transparent",
+									margin:0
+								}}
+							/>
+							<TouchableOpacity
+								style={{ width: "100%", height: 60, backgroundColor: "#28CD41" ,borderRadius:15 ,justifyContent:'center',alignItems:'center', marginTop:30}}
+								onPress={sumbitSymp}
+							>
+								<Text style={{color:'#FFFFFF', fontSize:16, fontWeight:'700'}}>Submit</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={{ width: "100%", height: 60, backgroundColor: "#28CD41" ,borderRadius:15 ,justifyContent:'center',alignItems:'center', marginTop:30}}
+								onPress={sumbitSymp}
+							>
+								<Text style={{color:'#FFFFFF', fontSize:16, fontWeight:'700'}}>Submit</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
-
-					<View style={{ width: "100%", height: "80%", borderWidth: 2 }}>
-						<CheckBox
-							title="Fever"
-							checked={fever}
-							onPress={() => setFever(!fever)}
-							checkedIcon={
-								<Image
-									source={require("../assets/checkedbox.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							uncheckedIcon={
-								<Image
-									source={require("../assets/uncheck.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							containerStyle={{
-								backgroundColor: "#E1F5E4",
-							}}
-						/>
-						<CheckBox
-							title="Cough or Colds"
-							checked={cough}
-							onPress={() => setCough(!cough)}
-							checkedIcon={
-								<Image
-									source={require("../assets/checkedbox.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							uncheckedIcon={
-								<Image
-									source={require("../assets/uncheck.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							containerStyle={{
-								backgroundColor: "#E1F5E4",
-							}}
-							
-						/>
-						<CheckBox
-							title="Sore Throat"
-							checked={soreThroat}
-							onPress={() => setSoreThroat(!soreThroat)}
-							checkedIcon={
-								<Image
-									source={require("../assets/checkedbox.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							uncheckedIcon={
-								<Image
-									source={require("../assets/uncheck.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							containerStyle={{
-								backgroundColor: "#E1F5E4",
-							}}
-							
-						/>
-						<CheckBox
-							title="Loss of smell or taste"
-							checked={lossOfSmell}
-							onPress={() => setLossOfSmell(!lossOfSmell)}
-							checkedIcon={
-								<Image
-									source={require("../assets/checkedbox.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							uncheckedIcon={
-								<Image
-									source={require("../assets/uncheck.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							containerStyle={{
-								backgroundColor: "#E1F5E4",
-							}}
-						
-						/>
-						<CheckBox
-							title="Body pains or fatigues"
-							checked={bodyPains}
-							onPress={() => setBodyPains(!bodyPains)}
-							checkedIcon={
-								<Image
-									source={require("../assets/checkedbox.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							uncheckedIcon={
-								<Image
-									source={require("../assets/uncheck.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							containerStyle={{
-								backgroundColor: "#E1F5E4",
-							}}
-							
-						/>
-						<CheckBox
-							title="Diarrhea"
-							checked={diarrhea}
-							onPress={() => setDiarrhea(!diarrhea)}
-							checkedIcon={
-								<Image
-									source={require("../assets/checkedbox.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							uncheckedIcon={
-								<Image
-									source={require("../assets/uncheck.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							containerStyle={{
-								backgroundColor: "#E1F5E4",
-							}}
-							
-						/>
-						<CheckBox
-							title="Breathing difficulties"
-							checked={breathingDiff}
-							onPress={() => setbreathingDiff(!breathingDiff)}
-							checkedIcon={
-								<Image
-									source={require("../assets/checkedbox.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							uncheckedIcon={
-								<Image
-									source={require("../assets/uncheck.png")}
-									style={{ width: 30, height: 30 }}
-								/>
-							}
-							containerStyle={{
-								backgroundColor: "#E1F5E4",
-							}}
-							
-						/>
-					</View>
-				</View>
+				</ScrollView>
 			</View>
 			{/* End of container */}
 		</SafeAreaView>
@@ -666,6 +688,7 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "#E1F5E4",
 		paddingHorizontal: 40,
+		height: "100%",
 	},
 	topContainer: {
 		zIndex: 1,
@@ -733,7 +756,9 @@ const styles = StyleSheet.create({
 	// bodyContainer style
 	bodyContainer: {
 		width: "100%",
-		height: "85%",
+		height: "auto",
 		paddingHorizontal: 5,
+		flexDirection: "column",
+		marginBottom:20
 	},
 });
