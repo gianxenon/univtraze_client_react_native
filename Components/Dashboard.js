@@ -189,6 +189,7 @@ const Dashboard = ({ navigation }) => {
 											borderColor: "white",
 											elevation: 20,
 										}}
+										onPress={toggleNotifNavigationView}
 									>
 										{notificationCounts}
 									</Text>
@@ -218,7 +219,7 @@ const Dashboard = ({ navigation }) => {
 									<View
 										style={{
 											width: "20%",
-											height: "75%",
+											height: "100%",
 											borderColor: "white",
 											borderWidth: 3,
 											borderRadius: 100,
@@ -321,7 +322,7 @@ const Dashboard = ({ navigation }) => {
 
 												{/* Download QR */}
 												<Pressable
-													style={[styles.buttons, styles.buttonClose]}
+													style={[styles.buttons]}
 													// onPress={() => setModalVisible(!modalVisible)}
 												>
 													<Text
@@ -490,64 +491,157 @@ const Dashboard = ({ navigation }) => {
 										alignSelf: "center",
 									}}
 								>
+									{/* Daily self assessment   notification */}
 									<View
 										style={{
 											width: "100%",
 											height: 54,
-											backgroundColor: "#28CD41",
-											borderWidth: 2,
-											borderRadius: 10,
 											flexDirection: "row",
 											alignItems: "center",
 											marginBottom: 5,
+											alignContent: "center",
 										}}
 									>
 										<Image
-											source={dailyAssessment_icon}
+											source={require("../assets/dailyAssess_icon.png")}
 											resizeMode="contain"
 											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
+												width: 32,
+												height: 32,
 											}}
 										/>
-										<Text style={{ color: "white" }}>Dashboard</Text>
+										<View style={{ paddingLeft: 15 }}>
+											<Text
+												style={{
+													color: "black",
+													fontSize: 16,
+													fontWeight: "700",
+												}}
+											>
+												Daily self assessment
+											</Text>
+											<Text
+												style={{
+													color: "#364D39",
+													fontSize: 12,
+													fontWeight: "900",
+												}}
+											>
+												Just now
+											</Text>
+										</View>
 									</View>
 
+									{/* Profile updated notification */}
 									<View
 										style={{
 											width: "100%",
 											height: 54,
-											backgroundColor: "#28CD41",
-											borderWidth: 2,
-											borderRadius: 10,
 											flexDirection: "row",
 											alignItems: "center",
 											marginBottom: 5,
 										}}
 									>
-										<Image
-											source={dailyAssessment_icon}
-											resizeMode="contain"
+										<View
 											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
+												width: "100%",
+												height: 54,
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 5,
+												alignContent: "center",
 											}}
-										/>
-										<Text style={{ color: "white" }}>Dashboard</Text>
+										>
+											<Image
+												source={require("../assets/userInfoUpdate_icon.png")}
+												resizeMode="contain"
+												style={{
+													width: 32,
+													height: 32,
+												}}
+											/>
+											<View style={{ paddingLeft: 15 }}>
+												<Text
+													style={{
+														color: "black",
+														fontSize: 16,
+														fontWeight: "700",
+													}}
+												>
+													Profile updated successfully
+												</Text>
+												<Text
+													style={{
+														color: "#364D39",
+														fontSize: 12,
+														fontWeight: "900",
+													}}
+												>
+													Just now
+												</Text>
+											</View>
+										</View>
+									</View>
+									{/*Active cases  notification */}
+									<View
+										style={{
+											width: "100%",
+											height: 54,
+											flexDirection: "row",
+											alignItems: "center",
+											marginBottom: 5,
+										}}
+									>
+										<View
+											style={{
+												width: "100%",
+												height: 54,
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 5,
+												alignContent: "center",
+											}}
+										>
+											<Image
+												source={require("../assets/cases_icon.png")}
+												resizeMode="contain"
+												style={{
+													width: 32,
+													height: 32,
+												}}
+											/>
+											<View style={{ paddingLeft: 15 }}>
+												<Text
+													style={{
+														color: "black",
+														fontSize: 16,
+														fontWeight: "700",
+													}}
+												>
+													Active cases are now 20,890
+												</Text>
+												<Text
+													style={{
+														color: "#364D39",
+														fontSize: 12,
+														fontWeight: "900",
+													}}
+												>
+													Just now
+												</Text>
+											</View>
+										</View>
 									</View>
 								</View>
 							</View>
 						</View>
 					</BottomSheet>
-
 					{/*end of botton sheet for notification */}
 				</View>
 				{/*End  Notification View */}
-				<ScrollView>
+				<ScrollView 
+					showsVerticalScrollIndicator={false}
+					>
 					<View style={styles.bodyContainer}>
 						<View style={styles.topTextContainer}>
 							<Text style={styles.wlcmTextName}>Welcome back,</Text>
@@ -749,6 +843,17 @@ export default Dashboard;
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "#E1F5E4",
+
+	},
+	topContainer: {
+		zIndex: 1,
+		width: "100%",
+		height: "15%",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		paddingHorizontal: 38,
+	
 	},
 	menuLogo: {
 		height: "50%",
@@ -759,23 +864,12 @@ const styles = StyleSheet.create({
 	notifLogo: {
 		height: "50%",
 		width: "20%",
-
 		justifyContent: "center",
 		alignItems: "center",
 	},
 	image: {
 		width: "90%",
 		height: "90%",
-	},
-	topContainer: {
-		zIndex: 1,
-		width: "100%",
-		height: 130,
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "space-between",
-		paddingStart: 40,
-		paddingEnd: 40,
 	},
 	bodyContainer: {
 		zIndex: -1,
