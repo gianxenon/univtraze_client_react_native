@@ -11,6 +11,7 @@ import {
 	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
+	ScrollView,
 } from "react-native";
 import { BottomSheet } from "react-native-btr";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -87,10 +88,10 @@ const ReportCovidCase = ({ navigation }) => {
 
 	return (
 		<SafeAreaView>
-			<StatusBar animated={true} backgroundColor="black" />
+			<StatusBar animated={true} backgroundColor="#E1F5E4" />
 			<View style={styles.container}>
-				{/* Notification View */}
-				<View style={styles.topContainer}>
+					{/* Notification View */}
+					<View style={styles.topContainer}>
 					<View style={styles.menuLogo}>
 						<TouchableWithoutFeedback onPress={toggleBottomNavigationView}>
 							<ImageBackground
@@ -121,6 +122,7 @@ const ReportCovidCase = ({ navigation }) => {
 											borderColor: "white",
 											elevation: 20,
 										}}
+										onPress={toggleNotifNavigationView}
 									>
 										{notificationCounts}
 									</Text>
@@ -149,23 +151,21 @@ const ReportCovidCase = ({ navigation }) => {
 								>
 									<View
 										style={{
-											width: "20%",
-											height: "75%",
-											borderColor: "white",
-											borderWidth: 3,
-											borderRadius: 100,
 											shadowColor: "black",
-											elevation: 20,
 											marginStart: 40,
+											justifyContent: "center",
 										}}
 									>
 										<Image
 											source={dp_uri}
 											resizeMode="cover"
 											style={{
-												width: "100%",
-												height: "100%",
+												width: 50,
+												height: 50,
 												borderRadius: 100,
+												borderColor: "#EEEEEE",
+												borderWidth: 2,
+												shadowColor: "black",
 											}}
 										/>
 									</View>
@@ -422,147 +422,241 @@ const ReportCovidCase = ({ navigation }) => {
 										alignSelf: "center",
 									}}
 								>
+									{/* Daily self assessment   notification */}
 									<View
 										style={{
 											width: "100%",
 											height: 54,
-											backgroundColor: "#28CD41",
-											borderWidth: 2,
-											borderRadius: 10,
 											flexDirection: "row",
 											alignItems: "center",
 											marginBottom: 5,
+											alignContent: "center",
 										}}
 									>
 										<Image
-											source={dailyAssessment_icon}
+											source={require("../assets/dailyAssess_icon.png")}
 											resizeMode="contain"
 											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
+												width: 32,
+												height: 32,
 											}}
 										/>
-										<Text style={{ color: "white" }}>Dashboard</Text>
+										<View style={{ paddingLeft: 15 }}>
+											<Text
+												style={{
+													color: "black",
+													fontSize: 16,
+													fontWeight: "700",
+												}}
+											>
+												Daily self assessment
+											</Text>
+											<Text
+												style={{
+													color: "#364D39",
+													fontSize: 12,
+													fontWeight: "900",
+												}}
+											>
+												Just now
+											</Text>
+										</View>
 									</View>
 
+									{/* Profile updated notification */}
 									<View
 										style={{
 											width: "100%",
 											height: 54,
-											backgroundColor: "#28CD41",
-											borderWidth: 2,
-											borderRadius: 10,
 											flexDirection: "row",
 											alignItems: "center",
 											marginBottom: 5,
 										}}
 									>
-										<Image
-											source={dailyAssessment_icon}
-											resizeMode="contain"
+										<View
 											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
+												width: "100%",
+												height: 54,
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 5,
+												alignContent: "center",
 											}}
-										/>
-										<Text style={{ color: "white" }}>Dashboard</Text>
+										>
+											<Image
+												source={require("../assets/userInfoUpdate_icon.png")}
+												resizeMode="contain"
+												style={{
+													width: 32,
+													height: 32,
+												}}
+											/>
+											<View style={{ paddingLeft: 15 }}>
+												<Text
+													style={{
+														color: "black",
+														fontSize: 16,
+														fontWeight: "700",
+													}}
+												>
+													Profile updated successfully
+												</Text>
+												<Text
+													style={{
+														color: "#364D39",
+														fontSize: 12,
+														fontWeight: "900",
+													}}
+												>
+													Just now
+												</Text>
+											</View>
+										</View>
+									</View>
+									{/*Active cases  notification */}
+									<View
+										style={{
+											width: "100%",
+											height: 54,
+											flexDirection: "row",
+											alignItems: "center",
+											marginBottom: 5,
+										}}
+									>
+										<View
+											style={{
+												width: "100%",
+												height: 54,
+												flexDirection: "row",
+												alignItems: "center",
+												marginBottom: 5,
+												alignContent: "center",
+											}}
+										>
+											<Image
+												source={require("../assets/cases_icon.png")}
+												resizeMode="contain"
+												style={{
+													width: 32,
+													height: 32,
+												}}
+											/>
+											<View style={{ paddingLeft: 15 }}>
+												<Text
+													style={{
+														color: "black",
+														fontSize: 16,
+														fontWeight: "700",
+													}}
+												>
+													Active cases are now 20,890
+												</Text>
+												<Text
+													style={{
+														color: "#364D39",
+														fontSize: 12,
+														fontWeight: "900",
+													}}
+												>
+													Just now
+												</Text>
+											</View>
+										</View>
 									</View>
 								</View>
 							</View>
 						</View>
 					</BottomSheet>
-
 					{/*end of botton sheet for notification */}
 				</View>
 				{/*End  Notification View */}
-
 				{/* Body Container */}
+				<Text
+					style={{
+						height: "auto",
+						fontSize: 28,
+						color: "#364D39",
+						fontWeight: "700",
+						marginHorizontal: 40,
+						padding: 10,
+					}}
+				>
+					Emergency {"\n"}Report
+				</Text>
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<View style={styles.bodyContainer}>
+						<View style={styles.formContainer}>
+							<Text>Patient Name</Text>
+							<TextInput
+								style={styles.input}
+								onChangeText={onChangeText}
+								value={text}
+								placeholder=""
+							/>
 
-				<View style={styles.bodyContainer}>
-					<Text
-						style={{
-							height: "10%",
-							fontSize: 28,
-							color: "#364D39",
-							fontWeight: "700",
-						}}
-					>
-						Emergency {"\n"}Report
-					</Text>
+							<Text style={{ marginTop: 20 }}>Medical condition</Text>
+							<DropDownPicker
+								open={open}
+								value={value}
+								items={items}
+								setOpen={setOpen}
+								setValue={setValue}
+								setItems={setItems}
+								theme="LIGHT"
+								multiple={true}
+								mode="BADGE"
+								listMode="SCROLLVIEW"
+								badgeDotColors={[
+									"#e76f51",
+									"#00b4d8",
+									"#e9c46a",
+									"##25cf41",
+									"#8ac926",
+									"#2536cf",
+									"#d11f99",
+								]}
+								style={{ borderColor: "#28CD4199" }}
+							/>
 
-					<View style={styles.formContainer}>
-						<Text style={{ marginTop: 60 }}>Patient Name</Text>
-						<TextInput
-							style={styles.input}
-							onChangeText={onChangeText}
-							value={text}
-							placeholder=""
-						/>
+							<Text style={{ marginTop: 20 }}>Description</Text>
 
-						<Text style={{ marginTop: 20 }}>Medical condition</Text>
-						<DropDownPicker
-							open={open}
-							value={value}
-							items={items}
-							setOpen={setOpen}
-							setValue={setValue}
-							setItems={setItems}
-							theme="LIGHT"
-							multiple={true}
-							mode="BADGE"
-							badgeDotColors={[
-								"#e76f51",
-								"#00b4d8",
-								"#e9c46a",
-								"##25cf41",
-								"#8ac926",
-								"#2536cf",
-								"#d11f99",
-							]}
-							style={{ borderColor: "#28CD4199" }}
-						/>
+							<UselessTextInput
+								multiline={true}
+								numberOfLines={4}
+								onChangeText={(textArea) => onChangeTextArea(textArea)}
+								value={textArea}
+								style={styles.inputss}
+							/>
 
-						<Text style={{ marginTop: 20 }}>Description</Text>
+							<Text style={{ marginTop: 20 }}>Room Numbers</Text>
+							<TextInput
+								style={styles.input}
+								onChangeText={onChangeText}
+								value={text}
+								placeholder=""
+							/>
 
-						<UselessTextInput
-							multiline={true}
-							numberOfLines={4}
-							onChangeText={(textArea) => onChangeTextArea(textArea)}
-							value={textArea}
-							style={styles.inputss}
-						/>
-
-						<Text style={{ marginTop: 20 }}>Room Numbers</Text>
-						<TextInput
-							style={styles.input}
-							onChangeText={onChangeText}
-							value={text}
-							placeholder=""
-						/>
-
-						<Pressable
-							style={{
-								width: "auto",
-								height: 60,
-								backgroundColor: "#28CD4199",
-								borderRadius: 10,
-								marginTop: 70,
-								alignItems: "center",
-								justifyContent: "center",
-							}}
-						>
-							<Text style={{ color: "white", fontSize: 16, fontWeight: "700" }}>
-								{" "}
-								SUBMIT
-							</Text>
-						</Pressable>
+							<Pressable
+								style={{
+									width: "auto",
+									height: 60,
+									backgroundColor: "#28CD4199",
+									borderRadius: 10,
+									marginTop: 70,
+									alignItems: "center",
+									justifyContent: "center",
+								}}
+							>
+								<Text
+									style={{ color: "white", fontSize: 16, fontWeight: "700" }}
+								>
+									{" "}
+									SUBMIT
+								</Text>
+							</Pressable>
+						</View>
 					</View>
-				</View>
-
+				</ScrollView>
 				{/*End of Body Container */}
 			</View>
 		</SafeAreaView>
@@ -573,16 +667,16 @@ export default ReportCovidCase;
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "#E1F5E4",
+		height: "100%",
 	},
 	topContainer: {
 		zIndex: 1,
 		width: "100%",
-		height: 130,
+		height: "15%",
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		paddingStart: 40,
-		paddingEnd: 40,
+		paddingHorizontal: 40,
 	},
 	menuLogo: {
 		height: "50%",
@@ -641,13 +735,10 @@ const styles = StyleSheet.create({
 	},
 	// body style
 	bodyContainer: {
-		zIndex: -1,
 		width: "auto",
-		height: "85%",
+		height: "100%",
 		marginBottom: 50,
-		marginLeft: 40,
-		marginRight: 40,
-		flexDirection: "column",
+		marginHorizontal: 48,
 	},
 	formContainer: {
 		width: "auto",

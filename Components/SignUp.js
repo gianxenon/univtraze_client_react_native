@@ -124,7 +124,8 @@ const SignUp = ({ navigation }) => {
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity
 					onPress={() => {
-						validateUserInput();
+						//	validateUserInput();
+						navigation.navigate("SignUpUserType");
 					}}
 					style={styles.button}
 				>

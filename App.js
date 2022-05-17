@@ -19,6 +19,7 @@ import ApiTester from './Components/ApiTester'
 import SignUpUserCredentialsEmployee from './Components/SignUpUserCredentialsEmployee';
 import SignUpUserCredentialsVisitor from './Components/SignUpUserCredentialsVisitor';
 import DailyAsessment from './Components/DailyAsessment';
+import SignStudPartTwo from './Components/SignStudPartTwo';
 export default function App() {
 
   const Stack = createNativeStackNavigator();
@@ -27,7 +28,8 @@ export default function App() {
    <AuthProvider>
        <NavigationContainer>
 
-          <Stack.Navigator initialRouteName='SignUpUserCredentialsStudent'>
+          <Stack.Navigator initialRouteName='Home'>
+          <Stack.Screen options={{headerShown: false}} name="SignStudPartTwo" component={SignStudPartTwo} />
             <Stack.Screen options={{headerShown: false}} name="DailyAsessment" component={DailyAsessment} />
             <Stack.Screen options={{headerShown: false}} name="ReportEmergency" component={ReportEmergency} />
             <Stack.Screen options={{headerShown: false}} name="ReportCovidCase" component={ReportCovidCase} />

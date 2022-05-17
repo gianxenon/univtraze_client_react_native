@@ -59,41 +59,55 @@ const SignUpUserType = ({ navigation }) => {
 		setUserId(decodedJwt.result.id);
 	};
 
-	const SubmitUserType = async () => {
-		const config = {
-			headers: { Authorization: `Bearer ${token}` },
-		};
-
-		const data = {
-			id: userId,
-			type: isChecked,
-		};
-		await axios
-			.post(
-				"https://univtraze.herokuapp.com/api/user/updateUserType",
-				data,
-				config
-			)
-			.then((response) => {
-				const success = response.data.success;
-
-				if (success === 0) {
-					console.log("Error" + response.data);
-				} else {
-					if (isChecked === "Student") {
-						navigation.navigate("SignUpUserCredentialsStudent");
-					}
-
-					if (isChecked === "Employee") {
-						navigation.navigate("SignUpUserCredentialsEmployee");
-					}
-
-					if (isChecked === "Visitor") {
-						navigation.navigate("SignUpUserCredentialsVisitor");
-					}
-				}
-			});
+	const SubmitUserType = () =>{
+		if (isChecked === "Student") {
+								navigation.navigate("SignUpUserCredentialsStudent");
+							}
+		
+							if (isChecked === "Employee") {
+								navigation.navigate("SignUpUserCredentialsEmployee");
+							}
+		
+							if (isChecked === "Visitor") {
+								navigation.navigate("SignUpUserCredentialsVisitor");
+							}
 	};
+	// const SubmitUserType = async () => {
+		
+	// 	// const config = {
+	// 	// 	headers: { Authorization: `Bearer ${token}` },
+	// 	// };
+
+	// 	// const data = {
+	// 	// 	id: userId,
+	// 	// 	type: isChecked,
+	// 	// };
+	// 	// await axios
+	// 	// 	.post(
+	// 	// 		"https://univtraze.herokuapp.com/api/user/updateUserType",
+	// 	// 		data,
+	// 	// 		config
+	// 	// 	)
+	// 	// 	.then((response) => {
+	// 	// 		const success = response.data.success;
+
+	// 	// 		if (success === 0) {
+	// 	// 			console.log("Error" + response.data);
+	// 	// 		} else {
+	// 	// 			if (isChecked === "Student") {
+	// 	// 				navigation.navigate("SignUpUserCredentialsStudent");
+	// 	// 			}
+
+	// 	// 			if (isChecked === "Employee") {
+	// 	// 				navigation.navigate("SignUpUserCredentialsEmployee");
+	// 	// 			}
+
+	// 	// 			if (isChecked === "Visitor") {
+	// 	// 				navigation.navigate("SignUpUserCredentialsVisitor");
+	// 	// 			}
+	// 	// 		}
+	// 	// 	});
+	// };
 
 	return (
 		<View style={styles.mainView}>
@@ -165,6 +179,7 @@ const SignUpUserType = ({ navigation }) => {
 					<TouchableOpacity
 						onPress={() => {
 							SubmitUserType();
+				
 						}}
 						style={styles.button}
 					>

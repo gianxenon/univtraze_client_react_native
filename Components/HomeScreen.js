@@ -5,8 +5,10 @@ import {
 	View,
 	ImageBackground,
 	TouchableOpacity,
+	StatusBar,
 } from "react-native";
 import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const HomeScreen = ({ navigation }) => {
 	const image = {
@@ -17,50 +19,54 @@ const HomeScreen = ({ navigation }) => {
 	};
 
 	return (
-		<View style={styles.container}>
-			<ImageBackground
-				source={image}
-				resizeMode="cover"
-				style={styles.univTrazeLogo}
-			>
-				<View style={{ width: "80%", height: 45, marginTop: "35%" }}>
-					<Image
-						style={styles.image}
-						source={uniTrazeLogo}
-						resizeMode="contain"
-					/>
-				</View>
 
-				<View style={{ paddingTop: 10, marginLeft: 30 }}>
-					<Text style={{ color: "#ffff", fontSize: 16 }}>
-						University content tracing app {"\n"} makes tracing easier
-					</Text>
-				</View>
-
-				<View
-					style={{
-						marginTop: "auto",
-						marginBottom: 40,
-						justifyContent: "center",
-						alignItems: "center",
-					}}
+	
+			<View style={styles.container}>
+					<StatusBar animated={true} backgroundColor="#28CD41" />
+				<ImageBackground
+					source={image}
+					resizeMode="cover"
+					style={styles.univTrazeLogo}
 				>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Login")}
-						style={styles.button}
-					>
-						<Text style={styles.buttonText}>Log in</Text>
-					</TouchableOpacity>
+					<View style={{ width: "80%", height: 45, marginTop: "35%" }}>
+						<Image
+							style={styles.image}
+							source={uniTrazeLogo}
+							resizeMode="contain"
+						/>
+					</View>
 
-					<TouchableOpacity
-						onPress={() => navigation.navigate("SignUp")}
-						style={styles.createAnAccountButton}
+					<View style={{ paddingTop: 10, marginLeft: 30 }}>
+						<Text style={{ color: "#ffff", fontSize: 16 }}>
+							University content tracing app {"\n"} makes tracing easier
+						</Text>
+					</View>
+
+					<View
+						style={{
+							marginTop: "auto",
+							marginBottom: 40,
+							justifyContent: "center",
+							alignItems: "center",
+						}}
 					>
-						<Text style={styles.createAnAccountText}>Create an account</Text>
-					</TouchableOpacity>
-				</View>
-			</ImageBackground>
-		</View>
+						<TouchableOpacity
+							onPress={() => navigation.navigate("Login")}
+							style={styles.button}
+						>
+							<Text style={styles.buttonText}>Log in</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							onPress={() => navigation.navigate("SignUp")}
+							style={styles.createAnAccountButton}
+						>
+							<Text style={styles.createAnAccountText}>Create an account</Text>
+						</TouchableOpacity>
+					</View>
+				</ImageBackground>
+			</View>
+
 	);
 };
 

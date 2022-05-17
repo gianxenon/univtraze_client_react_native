@@ -12,6 +12,7 @@ import {
 	Picker,
 	Dimensions,
 	TouchableWithoutFeedback,
+	StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -20,7 +21,10 @@ import moment from "moment";
 import * as SecureStore from "expo-secure-store";
 import jwtDecode from "jwt-decode";
 import { BottomSheet } from "react-native-btr";
-import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import {
+	borderColor,
+	shadowColor,
+} from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Dashboard = ({ navigation }) => {
@@ -157,6 +161,7 @@ const Dashboard = ({ navigation }) => {
 	return (
 		<SafeAreaView>
 			<View style={styles.container}>
+				<StatusBar animated={true} backgroundColor="#E1F5E4" />
 				{/* Notification View */}
 				<View style={styles.topContainer}>
 					<View style={styles.menuLogo}>
@@ -218,23 +223,21 @@ const Dashboard = ({ navigation }) => {
 								>
 									<View
 										style={{
-											width: "20%",
-											height: "100%",
-											borderColor: "white",
-											borderWidth: 3,
-											borderRadius: 100,
 											shadowColor: "black",
-											elevation: 20,
 											marginStart: 40,
+											justifyContent: "center",
 										}}
 									>
 										<Image
 											source={dp_uri}
 											resizeMode="cover"
 											style={{
-												width: "100%",
-												height: "100%",
+												width: 50,
+												height: 50,
 												borderRadius: 100,
+												borderColor: "#EEEEEE",
+												borderWidth: 2,
+												shadowColor: "black",
 											}}
 										/>
 									</View>
@@ -639,9 +642,7 @@ const Dashboard = ({ navigation }) => {
 					{/*end of botton sheet for notification */}
 				</View>
 				{/*End  Notification View */}
-				<ScrollView 
-					showsVerticalScrollIndicator={false}
-					>
+				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={styles.bodyContainer}>
 						<View style={styles.topTextContainer}>
 							<Text style={styles.wlcmTextName}>Welcome back,</Text>
@@ -843,7 +844,6 @@ export default Dashboard;
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "#E1F5E4",
-
 	},
 	topContainer: {
 		zIndex: 1,
@@ -852,8 +852,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		paddingHorizontal: 38,
-	
+		paddingHorizontal: 40,
 	},
 	menuLogo: {
 		height: "50%",
@@ -870,6 +869,45 @@ const styles = StyleSheet.create({
 	image: {
 		width: "90%",
 		height: "90%",
+	},
+	bottomNavigationView: {
+		backgroundColor: "#fff",
+		width: "100%",
+		height: "60%",
+		borderTopLeftRadius: 30,
+		borderTopRightRadius: 30,
+	},
+	centeredViews: {
+		flex: 1,
+		backgroundColor: "rgba(52, 52, 52, 0.3)",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	modalView: {
+		backgroundColor: "white",
+		borderRadius: 20,
+		padding: 35,
+		alignItems: "center",
+		shadowColor: "#000",
+		width: 350,
+		height: 474,
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5,
+	},
+	buttons: {
+		width: "100%",
+		height: 60,
+		borderRadius: 20,
+		elevation: 2,
+		marginTop: 25,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: "#28CD41",
 	},
 	bodyContainer: {
 		zIndex: -1,

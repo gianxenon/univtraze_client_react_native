@@ -240,7 +240,7 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 
 						<TouchableOpacity
 							onPress={() => {
-								navigation.navigate(null);
+								navigation.navigate("SignStudPartTwo");
 							}}
 							style={styles.button}
 						>

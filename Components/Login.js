@@ -6,13 +6,14 @@ import {
 	View,
 	TouchableOpacity,
 	Text,
-	Alert,
+	Alert,StatusBar
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../AuthContext/AuthContext";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 
+import { SafeAreaView } from "react-native-safe-area-context";
 const Login = ({ navigation }) => {
 	const image = {
 		uri: "https://firebasestorage.googleapis.com/v0/b/tcuhub-cf9e1.appspot.com/o/images%2Flogin_image.png?alt=media&token=ebb53e48-2bc0-485d-8456-fe8a31683061",
@@ -82,11 +83,15 @@ const Login = ({ navigation }) => {
 	};
 
 	return (
-		<KeyboardAvoidingView style={styles.container} behavior="padding">
+
+	
+			<SafeAreaView style = {{backgroundColor :"#E1F5E4"}}>
+			<StatusBar animated={true} backgroundColor="#E1F5E4" />
+			<KeyboardAvoidingView style={styles.container} behavior="height">
 			<View style={styles.imageContainer}>
 				<Image style={styles.image} source={image} />
 			</View>
-
+		
 			<View style={styles.inputContainer}>
 				<Text style={styles.loginText}>Log in</Text>
 
@@ -121,7 +126,8 @@ const Login = ({ navigation }) => {
 			</View>
 
 			<View style={styles.buttonContainer}>
-				<TouchableOpacity onPress={() => loginNow()} style={styles.button}>
+			{/* onPress={() => loginNow()} */}
+				<TouchableOpacity  onPress={() =>	navigation.navigate("Dashboard")} style={styles.button}>
 					<Text style={styles.buttonText}>Log in</Text>
 				</TouchableOpacity>
 			</View>
@@ -137,7 +143,10 @@ const Login = ({ navigation }) => {
 					<Image style={styles.facebookImage} source={facebookLogo} />
 				</TouchableOpacity>
 			</View>
-		</KeyboardAvoidingView>
+			</KeyboardAvoidingView>
+			</SafeAreaView>
+		
+	
 	);
 };
 
@@ -149,6 +158,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		height: "100%",
 		resizeMode: "center",
+		marginTop:10
 	},
 
 	imageContainer: {
@@ -157,9 +167,10 @@ const styles = StyleSheet.create({
 	},
 
 	container: {
-		flex: 1,
+		height:'100%',
 		justifyContent: "center",
 		alignItems: "center",
+	
 	},
 	label: {
 		color: "#4d7861",
