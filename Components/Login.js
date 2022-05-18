@@ -126,8 +126,8 @@ const Login = ({ navigation }) => {
 			</View>
 
 			<View style={styles.buttonContainer}>
-			{/* onPress={() => loginNow()} */}
-				<TouchableOpacity  onPress={() =>	navigation.navigate("Dashboard")} style={styles.button}>
+			{/* onPress={() =>navigation.navigate("Dashboard")} */}
+				<TouchableOpacity  onPress={() =>  loginNow()	} style={styles.button}>
 					<Text style={styles.buttonText}>Log in</Text>
 				</TouchableOpacity>
 			</View>
