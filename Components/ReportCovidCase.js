@@ -20,6 +20,7 @@ import React, { useState, useEffect } from "react";
 import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import * as SecureStore from "expo-secure-store";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 const ReportCovidCase = ({ navigation }) => {
 	// Notifications Variables
 	const [notificationCounts, setNotificationCounts] = useState(1);

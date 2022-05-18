@@ -106,38 +106,38 @@ const Dashboard = ({ navigation }) => {
 		}
 	}
 
-	const decodeJwt = (currentToken) => {
-		var decodedToken = jwtDecode(currentToken);
+	// const decodeJwt = (currentToken) => {
+	// 	var decodedToken = jwtDecode(currentToken);
 
-		setUserEmail(decodedToken.result.email);
-		setUserType(decodedToken.result.type);
+	// 	setUserEmail(decodedToken.result.email);
+	// 	setUserType(decodedToken.result.type);
 
-		if (decodedToken.result.type === null) {
-			navigation.navigate("SignUpUserType");
-			return;
-		}
+	// 	if (decodedToken.result.type === null) {
+	// 		navigation.navigate("SignUpUserType");
+	// 		return;
+	// 	}
 
-		getUserDetails(decodedToken.result.id, currentToken);
-	};
+	// 	getUserDetails(decodedToken.result.id, currentToken);
+	// };
 
-	const getUserDetails = async (userId, currentToken) => {
-		const config = {
-			headers: { Authorization: `Bearer ${currentToken}` },
-		};
+	// const getUserDetails = async (userId, currentToken) => {
+	// 	const config = {
+	// 		headers: { Authorization: `Bearer ${currentToken}` },
+	// 	};
 
-		await axios
-			.get(`https://univtraze.herokuapp.com/api/user/${userId}`, config)
-			.then((response) => {
-				const success = response.data.success;
+	// 	await axios
+	// 		.get(`https://univtraze.herokuapp.com/api/user/${userId}`, config)
+	// 		.then((response) => {
+	// 			const success = response.data.success;
 
-				if (success === 0) {
-					console.log("Error" + response.data);
-				} else {
-					console.log(response.data);
-					// navigation.navigate('SignUpUserCredentials')
-				}
-			});
-	};
+	// 			if (success === 0) {
+	// 				console.log("Error" + response.data);
+	// 			} else {
+	// 				console.log(response.data);
+	// 				// navigation.navigate('SignUpUserCredentials')
+	// 			}
+	// 		});
+	// };
 
 	useEffect(() => {
 		GetCovidUpdate();

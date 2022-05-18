@@ -30,7 +30,8 @@ const SignStudPartTwo = ({ navigation }) => {
 	const [userEmail, setUserEmail] = useState("");
 	const [userType, setUserType] = useState("");
 	const [userId, setUserId] = useState(0);
-
+	const [idUploaded, setIdUploaded] = useState('');
+	const [stIdUploaded, setstIdUploaded] = useState('');
 	useEffect(() => {
 		getValueFor("x-token");
 	}, []);
@@ -45,26 +46,26 @@ const SignStudPartTwo = ({ navigation }) => {
 		}
 	}
 
-	const decodeJwt = async (currentToken) => {
-		const decodedJwt = jwt_decode(currentToken);
+	// const decodeJwt = async (currentToken) => {
+	// 	const decodedJwt = jwt_decode(currentToken);
 
-		if (decodedJwt.result.type !== null) {
-			if (decodedJwt.result.type === "Student") {
-				navigation.navigate("SignUpUserCredentialsStudent");
-				return;
-			} else if (decodedJwt.result.type === "Employee") {
-				navigation.navigate("SignUpUserCredentialsEmployee");
-				return;
-			} else {
-				navigation.navigate("SignUpUserCredentialsVisitor");
-				return;
-			}
-		}
+	// 	if (decodedJwt.result.type !== null) {
+	// 		if (decodedJwt.result.type === "Student") {
+	// 			navigation.navigate("SignUpUserCredentialsStudent");
+	// 			return;
+	// 		} else if (decodedJwt.result.type === "Employee") {
+	// 			navigation.navigate("SignUpUserCredentialsEmployee");
+	// 			return;
+	// 		} else {
+	// 			navigation.navigate("SignUpUserCredentialsVisitor");
+	// 			return;
+	// 		}
+	// 	}
 
-		setUserEmail(decodedJwt.result.email);
-		setUserType(decodedJwt.result.type);
-		setUserId(decodedJwt.result.id);
-	};
+	// 	setUserEmail(decodedJwt.result.email);
+	// 	setUserType(decodedJwt.result.type);
+	// 	setUserId(decodedJwt.result.id);
+	// };
 
 	const [studentNumber, setStudentNumber] = useState("");
 	const [firstName, setFirstName] = useState("");
@@ -82,6 +83,7 @@ const SignStudPartTwo = ({ navigation }) => {
 		console.log(result);
 	};
 
+	
 	return (
 		<SafeAreaView style={{ backgroundColor: "#E1F5E4" }}>
 			<View style={{ height: "100%" }}>
@@ -141,7 +143,7 @@ const SignStudPartTwo = ({ navigation }) => {
 								>
 									<Text>Upload your File</Text>
 								</TouchableOpacity>
-								<Text>File Uploaded</Text>
+								<Text>{idUploaded}</Text>
 							</View>
 						</View>
 						<View
@@ -170,7 +172,7 @@ const SignStudPartTwo = ({ navigation }) => {
 								>
 									<Text>Upload your File</Text>
 								</TouchableOpacity>
-								<Text>File Uploaded</Text>
+								<Text>{stIdUploaded}</Text>
 							</View>
 						</View>
 
