@@ -604,7 +604,7 @@ const ReportCovidCase = ({ navigation }) => {
 								setItems={setItems}
 								theme="LIGHT"
 								multiple={true}
-								mode="BADGE"
+								mode="BADGE" 
 								listMode="SCROLLVIEW"
 								badgeDotColors={[
 									"#e76f51",
@@ -612,7 +612,7 @@ const ReportCovidCase = ({ navigation }) => {
 									"#e9c46a",
 									"##25cf41",
 									"#8ac926",
-									"#2536cf",
+									"#2536cf", 
 									"#d11f99",
 								]}
 								style={{ borderColor: "#28CD4199" }}

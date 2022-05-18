@@ -86,7 +86,7 @@ const Login = ({ navigation }) => {
 
 	
 			<SafeAreaView style = {{backgroundColor :"#E1F5E4"}}>
-			<StatusBar animated={true} backgroundColor="#E1F5E4" />
+			<StatusBar animated={true} backgroundColor="#E1F5E4" barStyle='dark-content'/>
 			<KeyboardAvoidingView style={styles.container} behavior="height">
 			<View style={styles.imageContainer}>
 				<Image style={styles.image} source={image} />

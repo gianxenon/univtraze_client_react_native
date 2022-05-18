@@ -207,7 +207,7 @@ const SignStudPartTwo = ({ navigation }) => {
 
 					<TouchableOpacity
 						onPress={() => {
-							navigation.navigate("SignStudPartTwo");
+							navigation.navigate("SignStudPartThree");
 						}}
 						style={styles.button}
 					>

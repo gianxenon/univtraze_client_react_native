@@ -6,9 +6,11 @@ import {
 	View,
 	TouchableOpacity,
 	Text,
+	StatusBar
 } from "react-native";
 import React, { useState } from "react";
 import axios from "axios";
+import { SafeAreaView } from "react-native-safe-area-context";
 const image = {
 	uri: "https://firebasestorage.googleapis.com/v0/b/tcuhub-cf9e1.appspot.com/o/images%2FSignUpOneImage.png?alt=media&token=080199fe-1d60-4a1f-998a-83458de4769a",
 };
@@ -81,7 +83,9 @@ const SignUp = ({ navigation }) => {
 	};
 
 	return (
-		<KeyboardAvoidingView style={styles.container} behavior="padding">
+		<SafeAreaView style={{height:'100%', backgroundColor:"#E1F5E4"}}>
+			<StatusBar animated={true} backgroundColor="#E1F5E4" barStyle='dark-content' />
+		<KeyboardAvoidingView style={styles.container} behavior='height'>
 			<View style={styles.imageContainer}>
 				<Image style={styles.image} source={image} />
 			</View>
@@ -145,6 +149,7 @@ const SignUp = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
+		</SafeAreaView>
 	);
 };
 

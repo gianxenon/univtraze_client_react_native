@@ -4,7 +4,7 @@ import {
 	View,
 	Button,
 	ImageBackground,
-	TouchableOpacity,
+	TouchableOpacity, StatusBar
 } from "react-native";
 import { RadioButton } from "react-native-paper";
 import React, { useState, useEffect } from "react";
@@ -59,21 +59,21 @@ const SignUpUserType = ({ navigation }) => {
 	// 	setUserId(decodedJwt.result.id);
 	// };
 
-	const SubmitUserType = () =>{
+	const SubmitUserType = () => {
 		if (isChecked === "Student") {
-								navigation.navigate("SignUpUserCredentialsStudent");
-							}
-		
-							if (isChecked === "Employee") {
-								navigation.navigate("SignUpUserCredentialsEmployee");
-							}
-		
-							if (isChecked === "Visitor") {
-								navigation.navigate("SignUpUserCredentialsVisitor");
-							}
+			navigation.navigate("SignUpUserCredentialsStudent");
+		}
+
+		if (isChecked === "Employee") {
+			navigation.navigate("SignUpUserCredentialsEmployee");
+		}
+
+		if (isChecked === "Visitor") {
+			navigation.navigate("SignUpUserCredentialsVisitor");
+		}
 	};
 	// const SubmitUserType = async () => {
-		
+
 	// 	// const config = {
 	// 	// 	headers: { Authorization: `Bearer ${token}` },
 	// 	// };
@@ -112,7 +112,7 @@ const SignUpUserType = ({ navigation }) => {
 	return (
 		<View style={styles.mainView}>
 			{/* <Text>SignUpUserTypess</Text> */}
-
+			<StatusBar animated={true} backgroundColor="#E1F5E4" barStyle='dark-content' />
 			<View style={styles.topContainer}>
 				<ImageBackground
 					source={image}
@@ -179,7 +179,7 @@ const SignUpUserType = ({ navigation }) => {
 					<TouchableOpacity
 						onPress={() => {
 							SubmitUserType();
-				
+
 						}}
 						style={styles.button}
 					>

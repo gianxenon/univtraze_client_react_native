@@ -161,7 +161,7 @@ const Dashboard = ({ navigation }) => {
 	return (
 		<SafeAreaView>
 			<View style={styles.container}>
-				<StatusBar animated={true} backgroundColor="#E1F5E4" />
+				<StatusBar animated={true} backgroundColor="#E1F5E4" barStyle='dark-content' />
 				{/* Notification View */}
 				<View style={styles.topContainer}>
 					<View style={styles.menuLogo}>

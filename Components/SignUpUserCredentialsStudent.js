@@ -9,6 +9,7 @@ import {
 	KeyboardAvoidingView,
 	Image,
 	ImageBackground,
+	StatusBar
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
@@ -73,6 +74,7 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 	
 	return (
 		<SafeAreaView>
+		<StatusBar animated={true} backgroundColor="#E1F5E4" barStyle='dark-content'/>
 			<KeyboardAvoidingView
 				style={{ backgroundColor: "#E1F5E4", height: "100%" }}
 			>
