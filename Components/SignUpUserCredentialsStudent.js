@@ -20,7 +20,7 @@ import DatePicker from "react-native-datepicker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 const SignUpUserCredentialsStudent = ({ navigation }) => {
-	const [date, setDate] = useState("09-10-2020");
+	const [date, setDate] = useState("");
 	const [token, setToken] = useState("");
 	const [userEmail, setUserEmail] = useState("");
 	const [userType, setUserType] = useState("");
@@ -197,7 +197,7 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 									color: "#949494",
 								},
 							}}
-							onCloseModal={(date) => {
+							onDateChange={(date) => {
 								setDate(date);
 							}}
 						/>
@@ -231,7 +231,7 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 					>
 						<TouchableOpacity
 							onPress={() => {
-								navigation.navigate("Login");
+								navigation.navigate("Home");
 							}}
 							style={styles.backbutton}
 						>

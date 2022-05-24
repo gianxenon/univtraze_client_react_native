@@ -21,6 +21,8 @@ import SignUpUserCredentialsVisitor from './Components/SignUpUserCredentialsVisi
 import DailyAsessment from './Components/DailyAsessment';
 import SignStudPartTwo from './Components/SignStudPartTwo';
 import SignStudPartThree from './Components/SignStudPartThree';
+import SignEmpPartTwo from './Components/SignEmpPartTwo';
+import SignEmpPartThree from './Components/SignEmpPartThree';
 export default function App() {
 
   const Stack = createNativeStackNavigator();
@@ -30,6 +32,8 @@ export default function App() {
        <NavigationContainer>
 
           <Stack.Navigator initialRouteName='Home'>
+          <Stack.Screen options={{headerShown: false}} name="SignEmpPartThree" component={SignEmpPartThree} />
+          <Stack.Screen options={{headerShown: false}} name="SignEmpPartTwo" component={SignEmpPartTwo} />
           <Stack.Screen options={{headerShown: false}} name="SignStudPartThree" component={SignStudPartThree} />
           <Stack.Screen options={{headerShown: false}} name="SignStudPartTwo" component={SignStudPartTwo} />
             <Stack.Screen options={{headerShown: false}} name="DailyAsessment" component={DailyAsessment} />
