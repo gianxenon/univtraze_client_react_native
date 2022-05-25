@@ -31,7 +31,7 @@ export default function App() {
    <AuthProvider>
        <NavigationContainer>
 
-          <Stack.Navigator initialRouteName='Dashboard'>
+          <Stack.Navigator initialRouteName='Home'>
           <Stack.Screen options={{headerShown: false}} name="SignEmpPartThree" component={SignEmpPartThree} />
           <Stack.Screen options={{headerShown: false}} name="SignEmpPartTwo" component={SignEmpPartTwo} />
           <Stack.Screen options={{headerShown: false}} name="SignStudPartThree" component={SignStudPartThree} />
