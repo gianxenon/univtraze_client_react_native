@@ -18,7 +18,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DatePicker from "react-native-datepicker";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { borderColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+
 const SignUpUserCredentialsStudent = ({ navigation }) => {
 	const [date, setDate] = useState("");
 	const [token, setToken] = useState("");
@@ -70,6 +70,7 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 
 	const [year, setYear] = useState("");
 	const [section, setSection] = useState("");
+
 
 	
 	return (
@@ -250,7 +251,7 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 							<Text style={styles.buttonText}>Next</Text>
 						</TouchableOpacity>
 					</View>
-
+				
 					{/* {
                     error? 
                     <Text style={styles.errorMessage}>*{errorMessage}</Text>

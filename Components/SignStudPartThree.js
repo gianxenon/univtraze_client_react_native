@@ -16,9 +16,9 @@ import * as SecureStore from "expo-secure-store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDownPicker from "react-native-dropdown-picker";
 import DatePicker from "react-native-datepicker";
-import Modal from "react-native-modal";
+
 //Import Library to make a cannon
-import ConfettiCannon from 'react-native-confetti-cannon';
+
 
 const SignStudPartThree = ({ navigation }) => {
     const [token, setToken] = useState("");
@@ -77,7 +77,7 @@ const SignStudPartThree = ({ navigation }) => {
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-    
+
     const [shoot, setShoot] = useState(false);
 
     useEffect(() => {
@@ -265,20 +265,7 @@ const SignStudPartThree = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
 
-                    <Modal isVisible={isModalVisible}>
-                        <View style={{ width: 348, height: 227, backgroundColor: 'white', alignSelf: 'center', alignItems: 'center' }}>
-
-                            <Text style={{ fontSize: 28, fontWeight: '700', color: '#29CC42' }}>   Sign Up {'\n'}Successful</Text>
-                            <Text style={{ fontSize: 16, fontWeight: '400', color: '#364D39' }}> Awesome, you will now being {'\n'} redirected to user profiling area</Text>
-                           
-                            <Button title="Hide modal" onPress={toggleModal} />
-                          
-                        </View>
-                        {shoot ? (
-                                <ConfettiCannon count={200} origin={{ x: 0, y: 0 }} fadeOut='true' />
-                            ) : null}
-                    </Modal>
-
+                  
 
                     {/* {
                    error? 
@@ -352,6 +339,5 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderColor: "#28CD41",
         justifyContent: "center",
-    },
-
+    }
 });

@@ -8,9 +8,13 @@ import {
 	Text,
 	StatusBar
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ConfettiCannon from 'react-native-confetti-cannon';
+import Modal from "react-native-modal";
+
+
 const image = {
 	uri: "https://firebasestorage.googleapis.com/v0/b/tcuhub-cf9e1.appspot.com/o/images%2FSignUpOneImage.png?alt=media&token=080199fe-1d60-4a1f-998a-83458de4769a",
 };
@@ -82,6 +86,28 @@ const SignUp = ({ navigation }) => {
 		}
 	};
 
+	const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
+
+    const [shoot, setShoot] = useState(false);
+
+    useEffect(() => {
+      //Time out to fire the cannon
+      setTimeout(() => {
+        setShoot(true);
+      }, 1000);
+    }, []);
+  
+    const handlePress = () => {
+      //To fire the cannon again. You can make your own logic here
+      setShoot(false);
+      setTimeout(() => {
+        setShoot(true);
+      }, 500);
+    };
 	return (
 		<SafeAreaView style={{height:'100%', backgroundColor:"#E1F5E4"}}>
 			<StatusBar animated={true} backgroundColor="#E1F5E4" barStyle='dark-content' />
@@ -127,14 +153,29 @@ const SignUp = ({ navigation }) => {
 
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity
-					onPress={() => {
-						//	validateUserInput();
-						navigation.navigate("SignUpUserType");
-					}}
+					onPress={toggleModal}
 					style={styles.button}
 				>
 					<Text style={styles.buttonText}>Sign Up</Text>
 				</TouchableOpacity>
+				<Modal isVisible={isModalVisible}>
+                        <View style={{ width: 348, height: 227, backgroundColor: 'white', alignSelf: 'center', alignItems: 'center',paddingVertical:20, borderRadius:15}}>
+
+                            <Text style={{ fontSize: 28, fontWeight: '700', color: '#29CC42' }}>   Sign Up {'\n'}Successful</Text>
+                            <Text style={{ fontSize: 14, fontWeight: '400', color: '#364D39' ,lineHeight:19.5 }}> Awesome, you will now being {'\n'} redirected to user profiling area</Text>
+							
+                            <TouchableOpacity     style={styles.buttonContinue} onPress={() => {
+								navigation.navigate("SignUpUserCredentialsStudent");
+							}} >
+                            <Text style={styles.buttonText}>Continue</Text>
+                            </TouchableOpacity>
+                          
+                        </View>
+                        {shoot ? (
+                                <ConfettiCannon count={200} origin={{ x: 0, y: 0 }} fadeOut='true' />
+                            ) : null}
+                    </Modal>
+
 			</View>
 
 			<Text style={styles.orText}>or</Text>
@@ -258,5 +299,14 @@ const styles = StyleSheet.create({
 		marginLeft: 41,
 		color: "red",
 		paddingVertical: 7.5,
-	},
+	},buttonContinue:{
+        backgroundColor: "#28CD41",
+        padding: 10,
+        borderRadius: 10,
+        paddingVertical: 18,
+        marginVertical:15,
+        width: 308,
+        height: 60,
+    }
+
 });
