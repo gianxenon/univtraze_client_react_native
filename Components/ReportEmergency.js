@@ -17,6 +17,8 @@ import { BottomSheet } from "react-native-btr";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
+import Menu from "../MenuComponents/Menu";
+import Notifications from "../MenuComponents/Notifications";
 const menu_jpg = {
 	uri: "https://firebasestorage.googleapis.com/v0/b/fir-phoneauth-74be7.appspot.com/o/menu.png?alt=media&token=e20ee94a-4632-467a-841c-c66659a2a3df",
 };
@@ -76,6 +78,22 @@ const ReportCovidCase = ({ navigation }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [isChecked, setIsChecked] = useState(true);
 
+
+	// variables for user inputs
+
+	const [patientName, setPatientName] = useState('')
+	const [medicalCondition, setMedicalCondition] = useState([])
+	const [description, setDescription] = useState('')
+	const [roomNumber, setRoomNumber] = useState(0)
+
+	const [error, setError] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
+	const [success, setSuccess] = useState(false)
+	const [successMessage, setSuccessMessage] = useState('')
+	const [loading, setLoading] = useState(false)
+	//End of user input variables
+
+
 	const toggleBottomNavigationView = () => {
 		//Toggling the visibility state of the bottom sheet
 		setVisible(!visible);
@@ -85,6 +103,47 @@ const ReportCovidCase = ({ navigation }) => {
 		//Toggling the visibility state of the bottom sheet
 		setNotifVisible(!notifVisible);
 	};
+
+	const submitEmergencyReport = async () => {
+		const currentPatientName = patientName;
+		const currentMedicalCondition = value;
+		const currentConditionDescription = textArea;
+		const currentRoomNumber = roomNumber;
+
+		if(currentPatientName === ''){
+			setError(true)
+			setErrorMessage('Please provide the patient name')
+			return
+		}
+
+		if(currentMedicalCondition.length === 0){
+			setError(true)
+			setErrorMessage('Please select medical condition')
+			return
+		}
+		
+		if(currentConditionDescription === '') {
+			setError(true)
+			setErrorMessage('Please patients condition description')
+			return
+		}
+
+		if(currentConditionDescription.length > 250) {
+			setError(true)
+			setErrorMessage('Description should not exceeds more than 250 characters')
+			return
+		}
+
+		if(roomNumber <= 0){
+			setError(true)
+			setErrorMessage('Please provide a valid room number')
+			return
+		}
+
+		console.log(currentMedicalCondition)
+		setError(false)
+		setErrorMessage('')
+	}
 
 	return (
 		<SafeAreaView>
@@ -131,442 +190,14 @@ const ReportCovidCase = ({ navigation }) => {
 						</TouchableWithoutFeedback>
 					</View>
 					{/*bottom navigation for user settings  */}
-					<BottomSheet
-						visible={visible}
-						onBackButtonPress={toggleBottomNavigationView}
-						onBackdropPress={toggleBottomNavigationView}
-					>
-						{/*Bottom Sheet inner View*/}
-						<View style={styles.bottomNavigationView}>
-							<View style={{ width: "100%", height: "100%" }}>
-								<View
-									style={{
-										width: "100%",
-										height: "25%",
-										justifyContent: "center",
-										padding: 15,
-										flexDirection: "row",
-										marginTop: 40,
-									}}
-								>
-									<View
-										style={{
-											shadowColor: "black",
-											marginStart: 40,
-											justifyContent: "center",
-										}}
-									>
-										<Image
-											source={dp_uri}
-											resizeMode="cover"
-											style={{
-												width: 50,
-												height: 50,
-												borderRadius: 100,
-												borderColor: "#EEEEEE",
-												borderWidth: 2,
-												shadowColor: "black",
-											}}
-										/>
-									</View>
-									<View style={{ width: "75%", padding: 10 }}>
-										<Text style={{ fontSize: 22, fontWeight: "bold" }}>
-											John Doe Dimitry
-										</Text>
+					<Menu visible={visible} toggleBottomNavigationView={toggleBottomNavigationView}/>
+					
 
-										<TouchableOpacity
-											style={{
-												width: 120,
-												height: "auto",
-												borderWidth: 2,
-												borderColor: "#28CD41",
-												borderRadius: 50,
-												padding: 5,
-												justifyContent: "center",
-												alignItems: "center",
-												marginTop: 5,
-											}}
-											onPress={() => setModalVisible(true)}
-										>
-											<Text style={{ color: "#28CD41", fontWeight: "bold" }}>
-												{" "}
-												View QR Code
-											</Text>
-										</TouchableOpacity>
-									</View>
-									<Modal
-										animationType="fade"
-										transparent={true}
-										visible={modalVisible}
-										onRequestClose={() => {
-											setModalVisible(!modalVisible);
-										}}
-									>
-										{/* POP-UP MODAL VIEW */}
-										<Pressable
-											style={styles.centeredViews}
-											onPress={() => setModalVisible(!modalVisible)}
-										>
-											<View style={styles.modalView}>
-												<Text
-													style={{
-														fontSize: 28,
-														color: "#28CD41",
-														fontWeight: "bold",
-													}}
-												>
-													UnivTraze
-												</Text>
-
-												{/* QR Container */}
-												<View
-													style={{
-														width: 210,
-														height: 210,
-														borderWidth: 2,
-														borderColor: "#28CD41",
-														borderRadius: 20,
-														marginTop: 5,
-													}}
-												></View>
-
-												{/* QR Code */}
-												<Text style={{ color: "rgba(54, 77, 57, 0.6)" }}>
-													42121329410
-												</Text>
-												{/* User Name */}
-
-												<Text style={{ fontSize: 28, marginTop: 10 }}>
-													John Doe Dimitry
-												</Text>
-
-												{/* User Type */}
-
-												<Text
-													style={{
-														fontSize: 16,
-														color: "rgba(54, 77, 57, 0.6)",
-													}}
-												>
-													STUDENT
-												</Text>
-
-												{/* Download QR */}
-												<Pressable
-													style={[styles.buttons]}
-													// onPress={() => setModalVisible(!modalVisible)}
-												>
-													<Text
-														style={{
-															color: "white",
-															fontSize: 16,
-															fontWeight: "700",
-														}}
-													>
-														Download QR
-													</Text>
-												</Pressable>
-											</View>
-										</Pressable>
-									</Modal>
-								</View>
-
-								<View
-									style={{
-										width: "80%",
-										height: "65%",
-										alignItems: "center",
-										justifyContent: "space-evenly",
-										alignSelf: "center",
-									}}
-								>
-									<View
-										style={{
-											width: "100%",
-											height: 54,
-											backgroundColor: "#28CD41",
-											borderRadius: 10,
-											flexDirection: "row",
-											alignItems: "center",
-										}}
-									>
-										<Image
-											source={dashboard_icon}
-											resizeMode="contain"
-											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
-											}}
-										/>
-										<Text style={{ color: "white" }}>Dashboard</Text>
-									</View>
-									<View
-										style={{
-											width: "100%",
-											height: 54,
-											borderRadius: 10,
-											flexDirection: "row",
-											alignItems: "center",
-										}}
-									>
-										<Image
-											source={accountsettings_icon}
-											resizeMode="contain"
-											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
-											}}
-										/>
-										<Text>Update profile information</Text>
-									</View>
-									<View
-										style={{
-											width: "100%",
-											height: 54,
-											borderRadius: 10,
-											flexDirection: "row",
-											alignItems: "center",
-										}}
-									>
-										<Image
-											source={updateProfile_icon}
-											resizeMode="contain"
-											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
-											}}
-										/>
-										<Text>Account settings</Text>
-									</View>
-									<View
-										style={{
-											width: "100%",
-											height: 54,
-											borderRadius: 10,
-											flexDirection: "row",
-											alignItems: "center",
-										}}
-									>
-										<Image
-											source={roomVisited_icon}
-											resizeMode="contain"
-											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
-											}}
-										/>
-										<Text>Room visited</Text>
-									</View>
-									<View
-										style={{
-											width: "100%",
-											height: 54,
-											borderRadius: 10,
-											flexDirection: "row",
-											alignItems: "center",
-										}}
-									>
-										<Image
-											source={logOut_icon}
-											resizeMode="contain"
-											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
-											}}
-										/>
-										<Text>Logout</Text>
-									</View>
-								</View>
-							</View>
-						</View>
-					</BottomSheet>
 					{/*end of bottom navigation for user settings  */}
 
 					{/* start of botton sheet for notification */}
 
-					<BottomSheet
-						visible={notifVisible}
-						onBackButtonPress={toggleNotifNavigationView}
-						onBackdropPress={toggleNotifNavigationView}
-					>
-						{/*Bottom Sheet inner View*/}
-						<View style={styles.bottomNavigationView}>
-							<View style={{ width: "100%", height: "100%" }}>
-								<View
-									style={{
-										width: "100%",
-										height: "15%",
-										padding: 15,
-										marginTop: 40,
-										paddingLeft: 40,
-									}}
-								>
-									<Text style={{ fontSize: 28 }}>Notifiations</Text>
-								</View>
-
-								<View
-									style={{
-										width: "80%",
-										height: "65%",
-										alignItems: "center",
-										alignSelf: "center",
-									}}
-								>
-									{/* Daily self assessment   notification */}
-									<View
-										style={{
-											width: "100%",
-											height: 54,
-											flexDirection: "row",
-											alignItems: "center",
-											marginBottom: 5,
-											alignContent: "center",
-										}}
-									>
-										<Image
-											source={require("../assets/dailyAssess_icon.png")}
-											resizeMode="contain"
-											style={{
-												width: 32,
-												height: 32,
-											}}
-										/>
-										<View style={{ paddingLeft: 15 }}>
-											<Text
-												style={{
-													color: "black",
-													fontSize: 16,
-													fontWeight: "700",
-												}}
-											>
-												Daily self assessment
-											</Text>
-											<Text
-												style={{
-													color: "#364D39",
-													fontSize: 12,
-													fontWeight: "900",
-												}}
-											>
-												Just now
-											</Text>
-										</View>
-									</View>
-
-									{/* Profile updated notification */}
-									<View
-										style={{
-											width: "100%",
-											height: 54,
-											flexDirection: "row",
-											alignItems: "center",
-											marginBottom: 5,
-										}}
-									>
-										<View
-											style={{
-												width: "100%",
-												height: 54,
-												flexDirection: "row",
-												alignItems: "center",
-												marginBottom: 5,
-												alignContent: "center",
-											}}
-										>
-											<Image
-												source={require("../assets/userInfoUpdate_icon.png")}
-												resizeMode="contain"
-												style={{
-													width: 32,
-													height: 32,
-												}}
-											/>
-											<View style={{ paddingLeft: 15 }}>
-												<Text
-													style={{
-														color: "black",
-														fontSize: 16,
-														fontWeight: "700",
-													}}
-												>
-													Profile updated successfully
-												</Text>
-												<Text
-													style={{
-														color: "#364D39",
-														fontSize: 12,
-														fontWeight: "900",
-													}}
-												>
-													Just now
-												</Text>
-											</View>
-										</View>
-									</View>
-									{/*Active cases  notification */}
-									<View
-										style={{
-											width: "100%",
-											height: 54,
-											flexDirection: "row",
-											alignItems: "center",
-											marginBottom: 5,
-										}}
-									>
-										<View
-											style={{
-												width: "100%",
-												height: 54,
-												flexDirection: "row",
-												alignItems: "center",
-												marginBottom: 5,
-												alignContent: "center",
-											}}
-										>
-											<Image
-												source={require("../assets/cases_icon.png")}
-												resizeMode="contain"
-												style={{
-													width: 32,
-													height: 32,
-												}}
-											/>
-											<View style={{ paddingLeft: 15 }}>
-												<Text
-													style={{
-														color: "black",
-														fontSize: 16,
-														fontWeight: "700",
-													}}
-												>
-													Active cases are now 20,890
-												</Text>
-												<Text
-													style={{
-														color: "#364D39",
-														fontSize: 12,
-														fontWeight: "900",
-													}}
-												>
-													Just now
-												</Text>
-											</View>
-										</View>
-									</View>
-								</View>
-							</View>
-						</View>
-					</BottomSheet>
+					<Notifications notifVisible={notifVisible} toggleNotifNavigationView={toggleNotifNavigationView}/>
 					{/*end of botton sheet for notification */}
 				</View>
 				{/*End  Notification View */}
@@ -589,9 +220,9 @@ const ReportCovidCase = ({ navigation }) => {
 							<Text>Patient Name</Text>
 							<TextInput
 								style={styles.input}
-								onChangeText={onChangeText}
-								value={text}
-								placeholder=""
+								onChangeText={(e) => {setPatientName(e)}}
+								value={patientName}
+								placeholder="e.g John Doe"
 							/>
 
 							<Text style={{ marginTop: 20 }}>Medical condition</Text>
@@ -626,25 +257,73 @@ const ReportCovidCase = ({ navigation }) => {
 								onChangeText={(textArea) => onChangeTextArea(textArea)}
 								value={textArea}
 								style={styles.inputss}
+								placeholder="Condition description..."
 							/>
 
 							<Text style={{ marginTop: 20 }}>Room Numbers</Text>
 							<TextInput
 								style={styles.input}
-								onChangeText={onChangeText}
-								value={text}
-								placeholder=""
+								onChangeText={(e) => {setRoomNumber(e*1)}}
+								value={roomNumber}
+								placeholder="e.g 401"
 							/>
+							{
+								success?
+								<Text
+								style={{
+										paddingVertical: 10,
+										color: '#28CD4199'
+									}}
+								>
+									Reported Successfully
+								</Text>
+								:
+								null
+							}
 
-							<Pressable
+							{
+								loading?
+								<Text
+								style={{
+										paddingVertical: 10,
+										color: '#28CD4199'
+									}}
+								>
+									Please wait..
+								</Text>
+								:
+								null
+							}
+
+							{
+								error?
+								<Text
+									style={{
+										paddingVertical: 10,
+										color: 'red'
+									}}
+								>
+									{errorMessage}
+								</Text>
+
+								:
+
+								null
+							}
+							
+
+							<TouchableOpacity
 								style={{
 									width: "auto",
 									height: 60,
 									backgroundColor: "#28CD4199",
 									borderRadius: 10,
-									marginTop: 70,
+									marginTop: 10,
 									alignItems: "center",
 									justifyContent: "center",
+								}}
+								onPress={() => {
+									submitEmergencyReport()
 								}}
 							>
 								<Text
@@ -653,7 +332,7 @@ const ReportCovidCase = ({ navigation }) => {
 									{" "}
 									SUBMIT
 								</Text>
-							</Pressable>
+							</TouchableOpacity>
 						</View>
 					</View>
 				</ScrollView>
