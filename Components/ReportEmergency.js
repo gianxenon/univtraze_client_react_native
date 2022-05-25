@@ -1,4 +1,7 @@
 import reactDom from "react-dom";
+import * as SecureStore from "expo-secure-store";
+import jwtDecode from "jwt-decode";
+import axios from "axios";
 import {
 	StyleSheet,
 	StatusBar,
@@ -78,6 +81,34 @@ const ReportCovidCase = ({ navigation }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [isChecked, setIsChecked] = useState(true);
 
+	const [token, setToken] = useState('')
+	const [currentUserId, setCurrentUserId] = useState(null)
+	
+	useEffect(() => {
+		getValueFor("x-token");
+	}, []);
+
+	async function getValueFor(key) {
+		let result = await SecureStore.getItemAsync(key);
+		if (result) {
+			setToken(result);
+			decodeJwt(result);
+		} else {
+			alert("Invalid token, please re-login to continue.");
+			navigation.navigate('Login')
+		}
+	}
+
+		const decodeJwt = (currentToken) => {
+			var decodedToken = jwtDecode(currentToken);
+
+			setCurrentUserId(decodedToken.result.id);
+
+			if (decodedToken.result.type === null) {
+				navigation.navigate("SignUpUserType");
+				return;
+			}
+		}
 
 	// variables for user inputs
 
@@ -139,6 +170,39 @@ const ReportCovidCase = ({ navigation }) => {
 			setErrorMessage('Please provide a valid room number')
 			return
 		}
+		
+
+		var data = {
+			reported_by: currentUserId,
+			patient_name: currentPatientName,
+			medical_condition: currentMedicalCondition, 
+		    description: currentConditionDescription,
+			room_number: currentRoomNumber
+		}
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`
+		  }
+		  
+		  axios.post('https://univtraze.herokuapp.com/api/covid_cases/addEmergencyReport', data, {
+			  headers: headers
+			})
+			.then((response) => {
+				if(response.data.success === 0 && response.data.message === 'Invalid token'){
+					navigation.navigate('Login')
+					return
+				}
+
+				console.log(response.data)
+				
+				
+			})
+
+			.catch((error) => {
+				console.log("Error " + error);
+			})
+
 
 		console.log(currentMedicalCondition)
 		setError(false)
