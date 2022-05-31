@@ -23,6 +23,7 @@ import SignStudPartTwo from './Components/SignStudPartTwo';
 import SignStudPartThree from './Components/SignStudPartThree';
 import SignEmpPartTwo from './Components/SignEmpPartTwo';
 import SignEmpPartThree from './Components/SignEmpPartThree';
+import RoomVisited from './Components/RoomVisited';
 export default function App() {
 
   const Stack = createNativeStackNavigator();
@@ -31,7 +32,8 @@ export default function App() {
    <AuthProvider>
        <NavigationContainer>
 
-          <Stack.Navigator initialRouteName='Home'>
+          <Stack.Navigator initialRouteName='RoomVisited'>
+          <Stack.Screen options={{headerShown: false}} name="RoomVisited" component={RoomVisited} />
           <Stack.Screen options={{headerShown: false}} name="SignEmpPartThree" component={SignEmpPartThree} />
           <Stack.Screen options={{headerShown: false}} name="SignEmpPartTwo" component={SignEmpPartTwo} />
           <Stack.Screen options={{headerShown: false}} name="SignStudPartThree" component={SignStudPartThree} />
