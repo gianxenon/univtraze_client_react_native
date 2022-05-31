@@ -141,33 +141,80 @@ const ReportCovidCase = ({ navigation }) => {
 		const currentConditionDescription = textArea;
 		const currentRoomNumber = roomNumber;
 
+		setLoading(true)
+
 		if(currentPatientName === ''){
+			setLoading(false)
 			setError(true)
 			setErrorMessage('Please provide the patient name')
+
+			setTimeout(() => {
+				setError(false)
+				setErrorMessage('')
+				setSuccess(false)
+				setLoading(false)
+			}, 3000)
+
 			return
 		}
 
 		if(currentMedicalCondition.length === 0){
+			setLoading(false)
 			setError(true)
 			setErrorMessage('Please select medical condition')
+
+			setTimeout(() => {
+				setError(false)
+				setErrorMessage('')
+				setSuccess(false)
+				setLoading(false)
+			}, 3000)
+
 			return
 		}
 		
 		if(currentConditionDescription === '') {
+			setLoading(false)
 			setError(true)
 			setErrorMessage('Please patients condition description')
+
+			setTimeout(() => {
+				setError(false)
+				setErrorMessage('')
+				setSuccess(false)
+				setLoading(false)
+			}, 3000)
+
 			return
 		}
 
 		if(currentConditionDescription.length > 250) {
+			setLoading(false)
 			setError(true)
 			setErrorMessage('Description should not exceeds more than 250 characters')
+
+			setTimeout(() => {
+				setError(false)
+				setErrorMessage('')
+				setSuccess(false)
+				setLoading(false)
+			}, 3000)
+
 			return
 		}
 
 		if(roomNumber <= 0){
+			setLoading(false)
 			setError(true)
 			setErrorMessage('Please provide a valid room number')
+
+			setTimeout(() => {
+				setError(false)
+				setErrorMessage('')
+				setSuccess(false)
+				setLoading(false)
+			}, 3000)
+
 			return
 		}
 		
@@ -184,8 +231,10 @@ const ReportCovidCase = ({ navigation }) => {
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${token}`
 		  }
+
+		  setLoading(true)
 		  
-		  axios.post('https://univtraze.herokuapp.com/api/covid_cases/addEmergencyReport', data, {
+		  await axios.post('https://univtraze.herokuapp.com/api/covid_cases/addEmergencyReport', data, {
 			  headers: headers
 			})
 			.then((response) => {
@@ -194,19 +243,35 @@ const ReportCovidCase = ({ navigation }) => {
 					return
 				}
 
-				console.log(response.data)
-				
+				if(response.data.success === 0){
+					setSuccess(false)
+					setError(true)
+					setErrorMessage("Failed reporting emergency. Please try again")
+					return
+				}
+
+				setLoading(false)
+				setSuccess(true)
+				setError(false)
+				setErrorMessage("")
 				
 			})
 
 			.catch((error) => {
 				console.log("Error " + error);
+				setLoading(false)
 			})
 
-
-		console.log(currentMedicalCondition)
 		setError(false)
 		setErrorMessage('')
+		setLoading(false)
+
+		setTimeout(() => {
+			setError(false)
+			setErrorMessage('')
+			setSuccess(false)
+			setLoading(false)
+		}, 3000)
 	}
 
 	return (
