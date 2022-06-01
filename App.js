@@ -32,7 +32,7 @@ export default function App() {
    <AuthProvider>
        <NavigationContainer>
 
-          <Stack.Navigator initialRouteName='RoomVisited'>
+          <Stack.Navigator initialRouteName='SignUpUserCredentialsVisitor'>
           <Stack.Screen options={{headerShown: false}} name="RoomVisited" component={RoomVisited} />
           <Stack.Screen options={{headerShown: false}} name="SignEmpPartThree" component={SignEmpPartThree} />
           <Stack.Screen options={{headerShown: false}} name="SignEmpPartTwo" component={SignEmpPartTwo} />
