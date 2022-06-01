@@ -1,4 +1,5 @@
 import reactDom from "react-dom";
+import SecureStore from "expo-secure-store"
 import {
 	StyleSheet,
 	StatusBar,
@@ -47,7 +48,53 @@ const dailyAssessment_icon = {
 
 const Menu = ({visible, toggleBottomNavigationView}) => {
 
- const [modalVisible, setModalVisible] = useState(false);
+const [modalVisible, setModalVisible] = useState(false);
+const [name, setName] = useState('')
+const [userProfile, setUserProfile] = useState(notif_jpg)
+const [userId, setUserId] = useState(null)
+
+	useEffect(() => {
+		getValueFor("x-token");
+	}, []);
+
+	async function getValueFor(key) {
+		let result = await SecureStore.getItemAsync(key);
+		if (result) {
+			setToken(result);
+			decodeJwt(result);
+			console.log(result);
+		} else {
+			alert("No values stored under that jwt-token.");
+		}
+	}
+
+	const decodeJwt = (currentToken) => {
+		var decodedToken = jwtDecode(currentToken);
+
+		console.log(decodedToken)
+		setName(decodedToken.result.id)
+		// getUserDetails(decodedToken.result.id, currentToken);
+	};
+
+	// const getUserDetails = async (userId, currentToken) => {
+	// 	const config = {
+	// 		headers: { Authorization: `Bearer ${currentToken}` },
+	// 	};
+
+	// 	await axios
+	// 		.get(`https://univtraze.herokuapp.com/api/user/${userId}`, config)
+	// 		.then((response) => {
+	// 			const success = response.data.success;
+
+	// 			if (success === 0) {
+	// 				console.log("Error" + response.data);
+	// 			} else {
+	// 				console.log(response.data);
+	// 				// navigation.navigate('SignUpUserCredentials')
+	// 			}
+	// 		});
+	// };
+
 
   return (
     <BottomSheet
@@ -90,7 +137,7 @@ const Menu = ({visible, toggleBottomNavigationView}) => {
 									</View>
 									<View style={{ width: "75%", padding: 10 }}>
 										<Text style={{ fontSize: 22, fontWeight: "bold" }}>
-											John Doe Dimitry
+											{name}
 										</Text>
 
 										<TouchableOpacity

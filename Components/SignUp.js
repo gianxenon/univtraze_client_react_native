@@ -165,7 +165,7 @@ const SignUp = ({ navigation }) => {
                             <Text style={{ fontSize: 14, fontWeight: '400', color: '#364D39' ,lineHeight:19.5 }}> Awesome, you will now being {'\n'} redirected to user profiling area</Text>
 							
                             <TouchableOpacity     style={styles.buttonContinue} onPress={() => {
-								navigation.navigate("SignUpUserCredentialsStudent");
+								navigation.navigate("SignUpUserType");
 							}} >
                             <Text style={styles.buttonText}>Continue</Text>
                             </TouchableOpacity>

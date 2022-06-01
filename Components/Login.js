@@ -12,6 +12,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../AuthContext/AuthContext";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 const Login = ({ navigation }) => {
@@ -71,7 +72,9 @@ const Login = ({ navigation }) => {
 								save("x-token", response.data.token);
 								setEmailInput("");
 								setPasswordInput("");
-								navigation.navigate("Dashboard");
+								
+								evaluateToken(response.data.token);
+
 							}
 						});
 				}
@@ -81,6 +84,17 @@ const Login = ({ navigation }) => {
 			}
 		}
 	};
+
+	const evaluateToken = (currentToken) => {
+		var decodedToken = jwtDecode(currentToken);
+
+		if(decodedToken.result.type === null || decodedToken.result.type === ''){
+			return navigation.navigate("SignUpUserType");
+		}
+
+		navigation.navigate("Dashboard");
+
+	}
 
 	return (
 

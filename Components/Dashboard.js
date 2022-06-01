@@ -102,25 +102,24 @@ const Dashboard = ({ navigation }) => {
 		let result = await SecureStore.getItemAsync(key);
 		if (result) {
 			setToken(result);
-			decodeJwt(result);
+			decodeJwt(result)
 		} else {
 			alert("No values stored under that jwt-token.");
 		}
 	}
 
-	// const decodeJwt = (currentToken) => {
-	// 	var decodedToken = jwtDecode(currentToken);
+	const decodeJwt = (currentToken) => {
+		var decodedToken = jwtDecode(currentToken);
 
-	// 	setUserEmail(decodedToken.result.email);
-	// 	setUserType(decodedToken.result.type);
+		alert(currentToken)
 
-	// 	if (decodedToken.result.type === null) {
-	// 		navigation.navigate("SignUpUserType");
-	// 		return;
-	// 	}
+		// if (decodedToken.result.type === null) {
+		// 	navigation.navigate("SignUpUserType");
+		// 	return;
+		// }
 
-	// 	getUserDetails(decodedToken.result.id, currentToken);
-	// };
+		// getUserDetails(decodedToken.result.id, currentToken);
+	};
 
 	// const getUserDetails = async (userId, currentToken) => {
 	// 	const config = {
