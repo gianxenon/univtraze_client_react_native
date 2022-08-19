@@ -6,34 +6,46 @@ import {
 	View,
 	TouchableOpacity,
 	Text,
-	StatusBar
+	StatusBar, 
+	Modal
 } from "react-native";
+import Checkbox from 'expo-checkbox';
 import React, { useState,useEffect } from "react";
 import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ConfettiCannon from 'react-native-confetti-cannon';
-import Modal from "react-native-modal";
+import ModalSuccess from "react-native-modal";
+import * as SecureStore from "expo-secure-store";
+import jwtDecode from "jwt-decode";
+import { Dimensions } from 'react-native';
 
-
-const image = {
-	uri: "https://firebasestorage.googleapis.com/v0/b/tcuhub-cf9e1.appspot.com/o/images%2FSignUpOneImage.png?alt=media&token=080199fe-1d60-4a1f-998a-83458de4769a",
-};
-const googleLogo = {
-	uri: "https://firebasestorage.googleapis.com/v0/b/tcuhub-cf9e1.appspot.com/o/images%2Fgoogle-icon3.png?alt=media&token=61a34454-dda9-4b6d-8dc6-198bb59ccbfb",
-};
-const facebookLogo = {
-	uri: "https://firebasestorage.googleapis.com/v0/b/tcuhub-cf9e1.appspot.com/o/images%2Ffacebook-icons.png?alt=media&token=0ec86a8b-f095-40dd-b4e9-4b31b2846068",
-};
 
 const SignUp = ({ navigation }) => {
+	const windowWidth = Dimensions.get('window').width;
+	const windowHeight = Dimensions.get('window').height;
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [provider, setProvider] = useState("email/password");
+
 	const [error, setError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
+	const [agreeWithTermsAndCondition, setAgreeWithTermsAndCondition] = useState(false)
+
+	const [showLoadingModal, setShowLoadingModal] = useState(false)
+	const [loadingMessage, setLoadingMessage] = useState('Please wait...')
+
+	async function save(key, value) {
+		await SecureStore.setItemAsync(key, value);
+	}
 
 	const validateUserInput = async () => {
+		if (!agreeWithTermsAndCondition) {
+			setError(true);
+			setErrorMessage("Please agree with our app terms and conditions");
+			return
+		} 
 		if (email === "") {
 			setError(true);
 			setErrorMessage("Please input your email address");
@@ -53,31 +65,41 @@ const SignUp = ({ navigation }) => {
 					setErrorMessage("Confirm password did not match!");
 				} else {
 					//Data checking with api
+					
+					setShowLoadingModal(true)
+
 					const data = {
 						provider: provider,
 						email: email,
 						password: password,
 					};
 
+					setLoadingMessage('Please wait while creating your acccount...')
+
 					await axios
 						.post("https://univtraze.herokuapp.com/api/user/signup", data)
 						.then((response) => {
 							const success = response.data.success;
 							if (success === 0) {
+								setLoadingMessage('Please wait...')
+								setShowLoadingModal(false)
 								setError(true);
 								setErrorMessage(response.data.message);
 							} else {
+								setLoadingMessage('Please wait...')
+								setShowLoadingModal(false)
 								setError(false);
-								setErrorMessage("");
-								setPassword("");
-								setConfirmPassword("");
-								setEmail("");
-								navigation.navigate("Login");
+								setModalVisible(true);
 							}
 						})
 						.catch((error) => {
-							console.log(error);
+							setError(true);
+							setErrorMessage("Failed creating account, please check your connection...");
 						});
+					
+					setLoadingMessage('Please wait...')
+					setShowLoadingModal(false)
+
 				}
 			} else {
 				setError(true);
@@ -88,9 +110,6 @@ const SignUp = ({ navigation }) => {
 
 	const [isModalVisible, setModalVisible] = useState(false);
 
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
-    };
 
     const [shoot, setShoot] = useState(false);
 
@@ -101,24 +120,75 @@ const SignUp = ({ navigation }) => {
       }, 1000);
     }, []);
   
-    const handlePress = () => {
-      //To fire the cannon again. You can make your own logic here
-      setShoot(false);
-      setTimeout(() => {
-        setShoot(true);
-      }, 500);
-    };
+
+	const handleLoginUser = async (email, password) => {
+		setModalVisible(false)
+		setShowLoadingModal(true)
+		setLoadingMessage('Logging in, please wait!...')
+
+			const data = {
+				email: email,
+				password: password,
+			};
+			await axios
+				.post("https://univtraze.herokuapp.com/api/user/login", data)
+				.then((response) => {
+					const success = response.data.success;
+	
+					if (success === 0) {
+						setError(true);
+						setErrorMessage(response.data.data);
+						setLoadingMessage('Login failed')
+						setShowLoadingModal(false)
+						
+					} else {
+						setError(false);
+						save("x-token", response.data.token);				
+						setLoadingMessage('Login successful')
+						setShowLoadingModal(false)
+						evaluateToken(response.data.token);
+					}
+			});
+		
+	}
+
+	const evaluateToken = async (currentToken) => {
+		var decodedToken = jwtDecode(currentToken);
+
+		if(decodedToken.result.type === null || decodedToken.result.type === ''){
+			return navigation.navigate("SignUpUserType");
+		}
+
+		navigation.navigate("Dashboard");
+	}
+
+	const viewTermsAndConditions = async () => {
+		navigation.navigate('TermsAndCondition')
+	}
 	return (
 		<SafeAreaView style={{height:'100%', backgroundColor:"#E1F5E4"}}>
-			<StatusBar animated={true} backgroundColor="#E1F5E4" barStyle='dark-content' />
+		<StatusBar animated={true} backgroundColor="#E1F5E4" barStyle='dark-content'/>
 		<KeyboardAvoidingView style={styles.container} behavior='height'>
-			<View style={styles.imageContainer}>
-				<Image style={styles.image} source={image} />
-			</View>
-
+			<Modal
+				animationType="slide"
+				transparent={true}
+				visible={showLoadingModal}
+				onRequestClose={() => {
+				setShowLoadingModal(!showLoadingModal);
+				}}>
+				<View style={styles.centeredView}>
+				<View style={styles.modalView}>
+					<Image
+						source={require("../assets/loading_icon.gif")}
+						resizeMode="contain"
+						style={{ width: 100, height: 100 }}
+					/>
+					<Text style={styles.modalText}>{loadingMessage}</Text>
+				</View>
+				</View>
+			</Modal>
 			<View style={styles.inputContainer}>
 				<Text style={styles.loginText}>Sign Up</Text>
-
 				<Text style={styles.label}>Email</Text>
 				<TextInput
 					placeholder="Email Address"
@@ -126,7 +196,6 @@ const SignUp = ({ navigation }) => {
 					onChangeText={(text) => setEmail(text)}
 					style={styles.input}
 				/>
-
 				<Text style={styles.label}>Password</Text>
 				<TextInput
 					placeholder="Password"
@@ -150,23 +219,45 @@ const SignUp = ({ navigation }) => {
 					<Text style={styles.errorMessage}></Text>
 				)}
 			</View>
+			<View style={{display: 'flex', flexDirection: 'row', paddingBottom: 5, paddingTop: 2}}>
+			<Checkbox
+				value={agreeWithTermsAndCondition}
+				onValueChange={() => {setAgreeWithTermsAndCondition(!agreeWithTermsAndCondition)}}
+				style={{marginRight: 5}}
+			/>
+				<Text style={{color: '#4d7861'}} onPress={() => {viewTermsAndConditions()}}>Agree with our Terms and conditions</Text>
+			</View>
 
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity
-					onPress={toggleModal}
+					onPress={() => validateUserInput()}
 					style={styles.button}
 				>
 					<Text style={styles.buttonText}>Sign Up</Text>
 				</TouchableOpacity>
-				<Modal isVisible={isModalVisible}>
+
+				{/* <Text style={styles.orText}>or</Text>
+				
+				<View style={styles.socialMediaContainer}>
+					<TouchableOpacity onPress={() => {}}>
+						<Image style={styles.googleImage} source={googleLogo} />
+					</TouchableOpacity>
+
+					<TouchableOpacity onPress={() => {}}>
+						<Image style={styles.facebookImage} source={facebookLogo} />
+					</TouchableOpacity>
+				</View> */}
+
+				<ModalSuccess isVisible={isModalVisible}>
                         <View style={{ width: 348, height: 227, backgroundColor: 'white', alignSelf: 'center', alignItems: 'center',paddingVertical:20, borderRadius:15}}>
 
                             <Text style={{ fontSize: 28, fontWeight: '700', color: '#29CC42' }}>   Sign Up {'\n'}Successful</Text>
                             <Text style={{ fontSize: 14, fontWeight: '400', color: '#364D39' ,lineHeight:19.5 }}> Awesome, you will now being {'\n'} redirected to user profiling area</Text>
 							
-                            <TouchableOpacity     style={styles.buttonContinue} onPress={() => {
-								navigation.navigate("SignUpUserType");
-							}} >
+                            <TouchableOpacity style={styles.buttonContinue} 
+								onPress={() => {
+									handleLoginUser(email, confirmPassword)
+								}} >
                             <Text style={styles.buttonText}>Continue</Text>
                             </TouchableOpacity>
                           
@@ -174,20 +265,8 @@ const SignUp = ({ navigation }) => {
                         {shoot ? (
                                 <ConfettiCannon count={200} origin={{ x: 0, y: 0 }} fadeOut='true' />
                             ) : null}
-                    </Modal>
+                    </ModalSuccess>
 
-			</View>
-
-			<Text style={styles.orText}>or</Text>
-
-			<View style={styles.socialMediaContainer}>
-				<TouchableOpacity onPress={() => {}}>
-					<Image style={styles.googleImage} source={googleLogo} />
-				</TouchableOpacity>
-
-				<TouchableOpacity onPress={() => {}}>
-					<Image style={styles.facebookImage} source={facebookLogo} />
-				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
 		</SafeAreaView>
@@ -196,21 +275,71 @@ const SignUp = ({ navigation }) => {
 
 export default SignUp;
 
+const windowWidth = Dimensions.get('screen').width;
+const windowHeight = Dimensions.get('screen').height;
+
 const styles = StyleSheet.create({
+	centeredView: {
+		backgroundColor: 'rgba(250, 250, 250, .7)',
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	  },
+	  modalView: {
+		width: '80%',
+		margin: 20,
+		backgroundColor: 'white',
+		borderRadius: 20,
+		padding: 35,
+		alignItems: 'center',
+		shadowColor: '#000',
+		shadowOffset: {
+		  width: 0,
+		  height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5,
+	  },
+	  buttonContainer: {
+		backgroundColor: "transparent",
+	  },
+	  button: {
+		borderRadius: 20,
+		padding: 10,
+		elevation: 2,
+	  },
+	  buttonOpen: {
+		backgroundColor: '#F194FF',
+	  },
+	  buttonClose: {
+		backgroundColor: '#2196F3',
+	  },
+	  textStyle: {
+		color: 'white',
+		fontWeight: 'bold',
+		textAlign: 'center',
+	  },
+	  modalText: {
+		marginBottom: 15,
+		textAlign: 'center',
+		color: "#4d7861"
+	  },
 	image: {
 		justifyContent: "center",
 		width: "100%",
-		height: "100%",
+		height: 200,
 		resizeMode: "center",
 	},
 
 	imageContainer: {
 		width: "100%",
-		height: "30%",
+		height: "auto",
 	},
 
 	container: {
 		flex: 1,
+		height: windowHeight,
 		justifyContent: "center",
 		alignItems: "center",
 	},
@@ -234,6 +363,9 @@ const styles = StyleSheet.create({
 		color: "#4d7861",
 		backgroundColor: "#ffff",
 	},
+	inputContainer: {
+		backgroundColor: "transparent"
+	},	
 	button: {
 		backgroundColor: "#28CD41",
 		padding: 10,
@@ -279,7 +411,8 @@ const styles = StyleSheet.create({
 	},
 	socialMediaContainer: {
 		flexDirection: "row",
-		width: "100%",
+		width: windowWidth,
+		alignSelf: "center",
 		justifyContent: "center",
 	},
 	googleImage: {

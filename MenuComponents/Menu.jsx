@@ -1,120 +1,64 @@
-import reactDom from "react-dom";
-import SecureStore from "expo-secure-store"
 import {
 	StyleSheet,
-	StatusBar,
 	Text,
 	View,
-	ImageBackground,
 	Pressable,
 	Image,
 	Modal,
-	TextInput,
 	TouchableOpacity,
-	TouchableWithoutFeedback,
-	ScrollView,
 } from "react-native";
 import { BottomSheet } from "react-native-btr";
-import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
-import DropDownPicker from "react-native-dropdown-picker";
-const menu_jpg = {
-	uri: "https://firebasestorage.googleapis.com/v0/b/fir-phoneauth-74be7.appspot.com/o/menu.png?alt=media&token=e20ee94a-4632-467a-841c-c66659a2a3df",
-};
-const notif_jpg = {
-	uri: "https://scontent.xx.fbcdn.net/v/t1.15752-9/279116408_686597809106370_5704419941564041151_n.png?_nc_cat=109&ccb=1-5&_nc_sid=aee45a&_nc_eui2=AeFzyXy1YuNR3W0bBoMIYyfLvnc5UDGkUZi-dzlQMaRRmL_hYEzaszZRVqAUnWzcFyXwISDyYVKWyg0XKpJIEVDi&_nc_ohc=Cz2l3xzmqo4AX9JKu8N&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVKXNntkgxIIZmUnezWtPUVvc3QOkZrKTeVTw_zxNFVyyQ&oe=6295EB65",
-};
-const dp_uri = {
-	uri: "https://thecinemaholic.com/wp-content/uploads/2021/01/nezuu-e1638963260523.jpg",
-};
-const dashboard_icon = {
-	uri: "https://scontent.xx.fbcdn.net/v/t1.15752-9/279432036_4916433748455571_7650663705710159528_n.png?stp=cp0_dst-png&_nc_cat=107&ccb=1-5&_nc_sid=aee45a&_nc_eui2=AeGejvNW7qCmkoxnj3EHwIChP5LpXi4CABc_kuleLgIAF5kmogSluSVtd3_oGy5orToBm8Vg4CAOkr2EPNIjQrHF&_nc_ohc=P6qhrT5Z2PAAX_hH2Lq&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVIirDxmpsySUbKKhsB3snXC-7Z6tK2iPF5CRer6UKEs4g&oe=6296145E",
-};
-const accountsettings_icon = {
-	uri: "https://scontent.xx.fbcdn.net/v/t1.15752-9/279441655_554948112655667_9017582647265493574_n.png?stp=cp0_dst-png&_nc_cat=107&ccb=1-5&_nc_sid=aee45a&_nc_eui2=AeF-yvkvyig9gIU3MyORXk60UE3lQ6Gtr_hQTeVDoa2v-I0dnyXfiNKw7zGjqvjWc7MvMCOcLOPvo5Xnu924Iu89&_nc_ohc=0xV7eqUS2DQAX_gnp53&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVIWC2BME5UKTub-5CA-2hTryPT8eDDTBDTdStmtpjx_XA&oe=6293D346",
-};
-const updateProfile_icon = {
-	uri: "https://scontent.xx.fbcdn.net/v/t1.15752-9/279044283_992261191656856_2558417864094669647_n.png?stp=cp0_dst-png&_nc_cat=105&ccb=1-5&_nc_sid=aee45a&_nc_eui2=AeGlBRZbPbMCpA5brsJIYChdjISzaE6_wdWMhLNoTr_B1ZbCRNmZ3FzaAzxR2m6haPRXnxO_pxAFG3NzL1oo-5pc&_nc_ohc=s0A9PLEGbwQAX_kWtnJ&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVIUV28fhicwUehusYl6y-8HHdawibTqK4iQy8fyWcedGw&oe=629694DC",
-};
-const roomVisited_icon = {
-	uri: "https://scontent.xx.fbcdn.net/v/t1.15752-9/279569905_402917014750329_8895176097173168861_n.png?stp=cp0_dst-png&_nc_cat=107&ccb=1-5&_nc_sid=aee45a&_nc_eui2=AeFuIwwqOF2nJmjldxjgniMYdH7yglkTqtF0fvKCWROq0Sq6DxqoUF4xknfks2GLkmjf1xGOU5HZNhALWpS64eZM&_nc_ohc=jLLRiraXJosAX-7-WTX&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVLLtHZv18YQDszKqZ-ly8aBeFdT83q5Pmhh9SNnNlZd1g&oe=6296C244",
-};
-const logOut_icon = {
-	uri: "https://scontent.xx.fbcdn.net/v/t1.15752-9/278976870_569950300996604_5811195864626421983_n.png?stp=cp0_dst-png&_nc_cat=102&ccb=1-5&_nc_sid=aee45a&_nc_eui2=AeGWh79W5o1WRLnA28OKFjRieX6E6HcImZJ5foTodwiZkjoijiyP5pdKryaQZBxRL6pjtYtajsefd9lr211QfMV7&_nc_ohc=rOJwkiGhtgsAX-PKrDV&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVI9DgZMz4KSZgD6xRFxlDARxHBkdFBP2Qq8zkL7C4gEsQ&oe=62931AB6",
-};
-const dailyAssessment_icon = {
-	uri: "https://scontent.xx.fbcdn.net/v/t1.15752-9/279002448_550781369781927_3622440211963300813_n.png?_nc_cat=106&ccb=1-5&_nc_sid=aee45a&_nc_eui2=AeE-izL_G5AtGlIG4Axq5VLlr9q1EbQWTIuv2rURtBZMiyLgb2QbCnyjQk4TdD8_jQRkybG68lcODEIEDPtA2OFd&_nc_ohc=oS01z-5unXYAX8eWM6g&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVLrLnMYagjZea4H2x45QEhTCA0rwSti2wu0Ie7CJYNYTw&oe=6294C2DF",
-};
+import QRCode from "react-native-qrcode-svg";
+import base64 from "base-64"
+import * as SecureStore from "expo-secure-store";
+import { useToast } from "react-native-toast-notifications";
 
-const Menu = ({visible, toggleBottomNavigationView}) => {
+
+const Menu = ({visible, toggleBottomNavigationView, props:{userId, fullname, type, profileUrl}, navigation, active}) => {
 
 const [modalVisible, setModalVisible] = useState(false);
-const [name, setName] = useState('')
-const [userProfile, setUserProfile] = useState(notif_jpg)
-const [userId, setUserId] = useState(null)
+const [dataToConvertToQr, setdataToConvertToQr] = useState("Invalid")
 
-	useEffect(() => {
-		getValueFor("x-token");
-	}, []);
+const toast = useToast()
 
-	async function getValueFor(key) {
-		let result = await SecureStore.getItemAsync(key);
-		if (result) {
-			setToken(result);
-			decodeJwt(result);
-			console.log(result);
-		} else {
-			alert("No values stored under that jwt-token.");
-		}
-	}
+const viewQrCode = (currentUserId, currentUserType) => {
+	var rawData = {id: currentUserId, type: currentUserType, name: fullname}
+	setdataToConvertToQr(base64.encode(JSON.stringify(rawData)))
+	
+	
+	setModalVisible(true)
+}
 
-	const decodeJwt = (currentToken) => {
-		var decodedToken = jwtDecode(currentToken);
+async function clear(key, value) {
+	await SecureStore.deleteItemAsync(key, value);
+}
 
-		console.log(decodedToken)
-		setName(decodedToken.result.id)
-		// getUserDetails(decodedToken.result.id, currentToken);
-	};
+const logout = async () => {
+											
+	await clear('x-token')
+	toast.show("Logged out successfully...", {
+		type: "normal",
+		placement: "bottom",
+		duration: 2000,
+		offset: 30,
+		animationType: "slide-in",
+	});
+	navigation.navigate('Login')
+}
 
-	// const getUserDetails = async (userId, currentToken) => {
-	// 	const config = {
-	// 		headers: { Authorization: `Bearer ${currentToken}` },
-	// 	};
-
-	// 	await axios
-	// 		.get(`https://univtraze.herokuapp.com/api/user/${userId}`, config)
-	// 		.then((response) => {
-	// 			const success = response.data.success;
-
-	// 			if (success === 0) {
-	// 				console.log("Error" + response.data);
-	// 			} else {
-	// 				console.log(response.data);
-	// 				// navigation.navigate('SignUpUserCredentials')
-	// 			}
-	// 		});
-	// };
-
-
-  return (
+return (
     <BottomSheet
-						visible={visible}
-						onBackButtonPress={toggleBottomNavigationView}
-						onBackdropPress={toggleBottomNavigationView}
+		visible={visible}
+		onBackButtonPress={toggleBottomNavigationView}
+		onBackdropPress={toggleBottomNavigationView}
+	>
+		{/*Bottom Sheet inner View*/}
+			<View style={styles.bottomNavigationView}>
+				<View style={{ width: "100%", height: "100%" }}>
+					<View
+						style={styles.profileContainer}
 					>
-						{/*Bottom Sheet inner View*/}
-						<View style={styles.bottomNavigationView}>
-							<View style={{ width: "100%", height: "100%" }}>
-								<View
-									style={{
-										width: "100%",
-										height: "25%",
-										justifyContent: "center",
-										padding: 15,
-										flexDirection: "row",
-										marginTop: 40,
-									}}
-								>
 									<View
 										style={{
 											shadowColor: "black",
@@ -123,7 +67,7 @@ const [userId, setUserId] = useState(null)
 										}}
 									>
 										<Image
-											source={dp_uri}
+											source={{uri : profileUrl}}
 											resizeMode="cover"
 											style={{
 												width: 50,
@@ -136,8 +80,8 @@ const [userId, setUserId] = useState(null)
 										/>
 									</View>
 									<View style={{ width: "75%", padding: 10 }}>
-										<Text style={{ fontSize: 22, fontWeight: "bold" }}>
-											{name}
+										<Text numberOfLines={1} style={{ fontSize: 22, fontWeight: "bold" }}>
+											{fullname}
 										</Text>
 
 										<TouchableOpacity
@@ -152,7 +96,7 @@ const [userId, setUserId] = useState(null)
 												alignItems: "center",
 												marginTop: 5,
 											}}
-											onPress={() => setModalVisible(true)}
+											onPress={() => viewQrCode(userId, type)}
 										>
 											<Text style={{ color: "#28CD41", fontWeight: "bold" }}>
 												{" "}
@@ -193,17 +137,24 @@ const [userId, setUserId] = useState(null)
 														borderColor: "#28CD41",
 														borderRadius: 20,
 														marginTop: 5,
+														justifyContent: 'center',
+    													alignItems: 'center'
 													}}
-												></View>
+												>
+													
+													<QRCode value={dataToConvertToQr} size={160}/>
+													
+
+												</View>
 
 												{/* QR Code */}
-												<Text style={{ color: "rgba(54, 77, 57, 0.6)" }}>
-													42121329410
+												<Text style={{ color: "rgba(54, 77, 57, 0.6)", textTransform: 'uppercase'}}>
+													univtraze-{userId}
 												</Text>
 												{/* User Name */}
 
 												<Text style={{ fontSize: 28, marginTop: 10 }}>
-													John Doe Dimitry
+													{fullname}
 												</Text>
 
 												{/* User Type */}
@@ -212,13 +163,14 @@ const [userId, setUserId] = useState(null)
 													style={{
 														fontSize: 16,
 														color: "rgba(54, 77, 57, 0.6)",
+														textTransform: 'uppercase'
 													}}
 												>
-													STUDENT
+													{type}
 												</Text>
 
 												{/* Download QR */}
-												<Pressable
+												{/* <Pressable
 													style={[styles.buttons]}
 													// onPress={() => setModalVisible(!modalVisible)}
 												>
@@ -231,22 +183,19 @@ const [userId, setUserId] = useState(null)
 													>
 														Download QR
 													</Text>
-												</Pressable>
+												</Pressable> */}
 											</View>
 										</Pressable>
 									</Modal>
 								</View>
 
 								<View
-									style={{
-										width: "80%",
-										height: "65%",
-										alignItems: "center",
-										justifyContent: "space-evenly",
-										alignSelf: "center",
-									}}
+									style={styles.menuListContainer}
 								>
-									<View
+									<TouchableOpacity
+										onPress={() => {
+											navigation.navigate('Dashboard')
+										}}
 										style={{
 											width: "100%",
 											height: 54,
@@ -257,7 +206,7 @@ const [userId, setUserId] = useState(null)
 										}}
 									>
 										<Image
-											source={dashboard_icon}
+											source={require('../assets/menuhome_icon.png')}
 											resizeMode="contain"
 											style={{
 												width: 15,
@@ -267,8 +216,14 @@ const [userId, setUserId] = useState(null)
 											}}
 										/>
 										<Text style={{ color: "white" }}>Dashboard</Text>
-									</View>
-									<View
+									</TouchableOpacity>
+									<TouchableOpacity
+										onPress={() => {
+											toggleBottomNavigationView();
+											
+											navigation.navigate("SignUpVaccination", {type: type})
+											
+										}}
 										style={{
 											width: "100%",
 											height: 54,
@@ -278,7 +233,7 @@ const [userId, setUserId] = useState(null)
 										}}
 									>
 										<Image
-											source={accountsettings_icon}
+											source={require('../assets/updateinfo_icon.png')}
 											resizeMode="contain"
 											style={{
 												width: 15,
@@ -287,9 +242,14 @@ const [userId, setUserId] = useState(null)
 												marginEnd: 20,
 											}}
 										/>
-										<Text>Update profile information</Text>
-									</View>
-									<View
+										<Text>Update Vaccine information</Text>
+									</TouchableOpacity>
+
+									<TouchableOpacity
+										onPress={() => {
+											toggleBottomNavigationView();
+											navigation.navigate('TemperatureHistory', {id: userId, type: type})
+										}}
 										style={{
 											width: "100%",
 											height: 54,
@@ -299,7 +259,33 @@ const [userId, setUserId] = useState(null)
 										}}
 									>
 										<Image
-											source={updateProfile_icon}
+											source={require("../assets/temp_history.png")}
+											resizeMode="contain"
+											style={{
+												width: 17,
+												height: 20,
+												marginStart: 20,
+												marginEnd: 20,
+											}}
+										/>
+										<Text>Temperature History</Text>
+									</TouchableOpacity>
+
+									<TouchableOpacity
+										onPress={() => {
+											toggleBottomNavigationView();
+											navigation.navigate('AccountSettings', {id: userId, type: type})
+										}}
+										style={{
+											width: "100%",
+											height: 54,
+											borderRadius: 10,
+											flexDirection: "row",
+											alignItems: "center",
+										}}
+									>
+										<Image
+											source={require('../assets/accountsetting_icon.png')}
 											resizeMode="contain"
 											style={{
 												width: 15,
@@ -309,8 +295,13 @@ const [userId, setUserId] = useState(null)
 											}}
 										/>
 										<Text>Account settings</Text>
-									</View>
-									<View
+									</TouchableOpacity>
+									
+									<TouchableOpacity
+										onPress={() => {
+											toggleBottomNavigationView();
+											navigation.navigate('RoomVisited', {id: userId, type: type})
+										}}
 										style={{
 											width: "100%",
 											height: 54,
@@ -320,17 +311,18 @@ const [userId, setUserId] = useState(null)
 										}}
 									>
 										<Image
-											source={roomVisited_icon}
+											source={require("../assets/room_enter.png")}
 											resizeMode="contain"
 											style={{
-												width: 15,
-												height: 15,
+												width: 17,
+												height: 20,
 												marginStart: 20,
 												marginEnd: 20,
 											}}
 										/>
-										<Text>Room visited</Text>
-									</View>
+										<Text>Room Visited</Text>
+									</TouchableOpacity>
+									
 									<View
 										style={{
 											width: "100%",
@@ -340,18 +332,25 @@ const [userId, setUserId] = useState(null)
 											alignItems: "center",
 										}}
 									>
-										<Image
-											source={logOut_icon}
-											resizeMode="contain"
-											style={{
-												width: 15,
-												height: 15,
-												marginStart: 20,
-												marginEnd: 20,
-											}}
-										/>
-										<Text>Logout</Text>
+										<TouchableOpacity
+											onPress={() => logout()}
+											style={{flexDirection: "row", width: '100%'}}
+										>
+										
+											<Image
+												source={require('../assets/logout_icon.png')}
+												resizeMode="contain"
+												style={{
+													width: 15,
+													height: 15,
+													marginStart: 20,
+													marginEnd: 20,
+												}}
+											/>
+											<Text>Logout</Text>
+										</TouchableOpacity>
 									</View>
+									
 								</View>
 							</View>
 						</View>
@@ -375,6 +374,21 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		paddingHorizontal: 40,
 	},
+	profileContainer: {
+		width: "100%",
+		height: "25%",
+		 justifyContent: "center",
+		padding: 15,
+		flexDirection: "row",
+		marginTop: 10,
+	},
+	menuListContainer: {
+		width: "80%",
+		height: "65%",
+		alignItems: "center",
+		justifyContent: "space-evenly",
+		alignSelf: "center",
+	},
 	menuLogo: {
 		height: "50%",
 		width: "20%",
@@ -394,7 +408,7 @@ const styles = StyleSheet.create({
 	bottomNavigationView: {
 		backgroundColor: "#fff",
 		width: "100%",
-		height: "60%",
+		height: "70%",
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
 	},
@@ -411,7 +425,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		shadowColor: "#000",
 		width: 350,
-		height: 474,
+		height: 420,
 		shadowOffset: {
 			width: 0,
 			height: 2,

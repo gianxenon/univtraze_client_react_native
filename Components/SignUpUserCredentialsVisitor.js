@@ -11,67 +11,89 @@ import {
 	ImageBackground,
 	StatusBar
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import React, { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import jwt_decode from "jwt-decode";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import DatePicker from "react-native-datepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StackActions } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
+import moment from "moment";
 
-const SignUpUserCredentialsStudent = ({ navigation }) => {
+const SignUpUserCredentialsVisitor = ({ navigation, route }) => {
+
 	const [date, setDate] = useState("");
-	const [token, setToken] = useState("");
-	const [userEmail, setUserEmail] = useState("");
-	const [userType, setUserType] = useState("");
+	const [type, setType] = useState(route.params.type);
 	const [userId, setUserId] = useState(0);
-
-	useEffect(() => {
-		getValueFor("x-token");
-	}, []);
-
-	async function getValueFor(key) {
-		let result = await SecureStore.getItemAsync(key);
-		if (result) {
-			setToken(result);
-			decodeJwt(result);
-		} else {
-			alert("No values stored under that jwt-token.");
-		}
-	}
-
-	// const decodeJwt = async (currentToken) => {
-	// 	const decodedJwt = jwt_decode(currentToken);
-
-	// 	if (decodedJwt.result.type !== null) {
-	// 		if (decodedJwt.result.type === "Student") {
-	// 			navigation.navigate("SignUpUserCredentialsStudent");
-	// 			return;
-	// 		} else if (decodedJwt.result.type === "Employee") {
-	// 			navigation.navigate("SignUpUserCredentialsEmployee");
-	// 			return;
-	// 		} else {
-	// 			navigation.navigate("SignUpUserCredentialsVisitor");
-	// 			return;
-	// 		}
-	// 	}
-
-	// 	setUserEmail(decodedJwt.result.email);
-	// 	setUserType(decodedJwt.result.type);
-	// 	setUserId(decodedJwt.result.id);
-	// };
-
 	const [studentNumber, setStudentNumber] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [middleName, setMiddleName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [address, setAddress] = useState("");
-	const [dateOfBirth, setDateOfBirth] = useState("");
+	const [suffix, setSuffix] = useState("");
+	const [gender, setGender] = useState("Rather not say");
+	const [course, setCourse] = useState("")
+	const [email, setEmail] = useState("")
+	const [dateOfBirth, setDateOfBirth] = useState(new Date());
+	const [yearAndSection, setYearAndSection] = useState("")
 
-	const [year, setYear] = useState("");
-	const [section, setSection] = useState("");
+	const [showDatePicker, setShowDatePicker] = useState(false)
+
+	// Error handlers
+
+	const [error, setError] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
+	const [success, setSuccess] = useState(false)
+
+	const nextScreen = async () => {
+		
+		if(type === null || type === ''){
+			return navigation.dispatch(StackActions.popToTop());
+		}
+		if(firstName === null || firstName === ''){
+			setError(true)
+			setErrorMessage('Please enter your firstname')
+			return
+		}
+		if(lastName === null || lastName === ''){
+			setError(true)
+			setErrorMessage('Please enter your  lastname')
+			return
+		}
+		if(gender === null || gender === ''){
+			setError(true)
+			setErrorMessage('Please enter your gender')
+		}	
+		if(address === null || address === ''){
+			setError(true)
+			setErrorMessage('Please enter your address')
+			return
+		}
+		if(dateOfBirth === null || dateOfBirth === ''){
+			setError(true)
+			setErrorMessage('Please enter your date of birth')
+			return
+		}
+
+		const  totalYears = moment().diff(moment(dateOfBirth), 'Years')
+		
+		if(totalYears < 12){
+			setError(true)
+			setErrorMessage('User below 12 yrs old can\'t use the app')
+			return
+		}
+
+		setError(false)
+		setErrorMessage('')
 
 
+		const dob = moment(dateOfBirth).format("yyyy-MM-DD");
+
+		navigation.navigate("SignUpCredentialsDocuments", {type, firstName, lastName, middleName,suffix, gender, address, dob});
+	}
+
+	
 	
 	return (
 		<SafeAreaView>
@@ -88,17 +110,15 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 				</View>
 
 				<ScrollView style={styles.inputContainer}>
-				
-
 					<View
 						style={{ width: "100%", alignItems: "center", borderRadius: 15 }}
 					>
-						<Text style={styles.label}>First name {firstName}</Text>
+						<Text style={styles.label}>First name</Text>
 						<TextInput
 							placeholder="First name"
 							defaultValue={""}
 							onChangeText={(text) => {
-								//		setFirstName(text);
+								setFirstName(text);
 							}}
 							style={styles.input}
 						/>
@@ -107,12 +127,12 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 					<View
 						style={{ width: "100%", alignItems: "center", borderRadius: 15 }}
 					>
-						<Text style={styles.label}>Middle name {middleName}</Text>
+						<Text style={styles.label}>Middle name </Text>
 						<TextInput
 							placeholder="Middle name"
 							defaultValue={""}
 							onChangeText={(text) => {
-								//	setMiddleName(text);
+								setMiddleName(text);
 							}}
 							style={styles.input}
 						/>
@@ -121,85 +141,118 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 					<View
 						style={{ width: "100%", alignItems: "center", borderRadius: 15 }}
 					>
-						<Text style={styles.label}>Last name {lastName}</Text>
+						<Text style={styles.label}>Last name</Text>
 						<TextInput
 							placeholder="Last name"
 							defaultValue={""}
 							onChangeText={(text) => {
-								//	setLastName(text);
+								setLastName(text);
 							}}
 							style={styles.input}
 						/>
 					</View>
 
 					<View
+						style={{ width: "100%", borderRadius: 15, alignItems: 'center'}}
+					>
+						<View style={{width: "80%", flexDirection: "row"}}>
+							<View style={{width: "50%"}}>
+								<Text style={styles.label}>Suffix </Text>
+								<TextInput
+									placeholder="Suffix"
+									defaultValue={""}
+									onChangeText={(text) => {
+										setSuffix(text);
+									}}
+									style={styles.suffixInput}
+								/>
+							</View>
+
+							<View style={{width: "50%"}}>
+								<Text style={styles.label}>Gender </Text>
+								<Picker
+								style={{width: "100%",
+								height: 50, color: "#4d7861"}}
+								selectedValue={gender}
+								onValueChange={value => setGender(value)}
+								mode="dialog">
+									<Picker.Item label="Rather not say" value="Rather not say" />
+									<Picker.Item label="Male" value="Male" />
+									<Picker.Item label="Female" value="Female" />
+								</Picker>
+							</View>
+						</View>
+						
+					</View>
+
+					<View
 						style={{ width: "100%", alignItems: "center", borderRadius: 15 }}
 					>
-						<Text style={styles.label}>Address{address}</Text>
+						<Text style={styles.label}>Address</Text>
 						<TextInput
 							placeholder="Address"
 							defaultValue={""}
 							onChangeText={(text) => {
-								//setAddress(text);
+								setAddress(text);
 							}}
 							style={styles.input}
 						/>
 					</View>
 
 					<View
-						style={{ width: "100%", alignItems: "center", borderRadius: 15 }}
+						style={{ width: "100%", alignItems: "center", borderRadius: 15}}
 					>
 						<Text style={styles.label}>Date of birth</Text>
-
-						<DatePicker
-							style={styles.datePickerStyle}
-							date={date} //initial date from state
-							mode="date" //The enum of date, datetime and time
-							placeholder="Select date"
-							placeHolderTextStyle={{ color: "#cc0000" }}
-							format="DD-MM-YYYY"
-							minDate="01-01-1800"
-							maxDate="01-01-3000"
-							confirmBtnText="Confirm"
-							cancelBtnText="Cancel"
-							customStyles={{
-								dateIcon: {
-									//display: 'none',
-									//	position: "absolute",
-									//	left: 0,
-									//	top: 4,
-									//marginLeft: 0,
-									justifyContent: "flex-end",
-								},
-								dateInput: {
-									marginLeft: 10,
-									borderColor: "transparent",
-									alignItems: "flex-start",
-									color: "#4d7861",
-								},
-								placeholderText: {
-									fontSize: 16,
-									color: "#949494",
-								},
-							}}
-							onDateChange={(date) => {
-								setDate(date);
-							}}
-						/>
+						
+						<View style={{ width: "100%", alignItems: "center", justifyContent: "center", flexDirection: "row"}}>
+							<TextInput
+								placeholder="Date of birth"
+								defaultValue={moment(dateOfBirth).format("yyyy-MM-DD")}
+								style={styles.dobInput}
+								editable={false}
+							/>
+							<AntDesign name="calendar" size={37} color="#28CD41" style={{marginRight: 5}} onPress={() => setShowDatePicker(true)}/>
+						</View>
+				
 					</View>
 
+					{
+						showDatePicker === true?
+						<DateTimePicker
+							value={dateOfBirth}
+							mode={"date"}
+							is24Hour={true}
+							onChange={(event, date) => {
+								setShowDatePicker(false)
+								setDateOfBirth(new Date(date))
+							}
+							}
+							/>
+						:
+						null
+					}
+
+				
+					
+					
+
+					{
+                   		 error? 
+						<Text style={styles.errorMessage}>*{errorMessage}</Text>
+						:
+						<Text style={styles.errorMessage}></Text>
+					}
 
 					<View
 						style={{
 							flexDirection: "row",
 							justifyContent: "center",
 							marginBottom: 20,
-							marginTop:150
 						}}
 					>
 						<TouchableOpacity
 							onPress={() => {
-								navigation.navigate("Home");
+								navigation.goBack();
 							}}
 							style={styles.backbutton}
 						>
@@ -211,33 +264,25 @@ const SignUpUserCredentialsStudent = ({ navigation }) => {
 
 						<TouchableOpacity
 							onPress={() => {
-								navigation.navigate("SignVisPartTwo");
+								nextScreen();
 							}}
 							style={styles.button}
 						>
 							<Text style={styles.buttonText}>Next</Text>
 						</TouchableOpacity>
 					</View>
-				
-					{/* {
-                    error? 
-                    <Text style={styles.errorMessage}>*{errorMessage}</Text>
-                    :
-                    <Text style={styles.errorMessage}></Text>
-                } */}
+
 				</ScrollView>
 			</KeyboardAvoidingView>
 		</SafeAreaView>
 	);
 };
-
-export default SignUpUserCredentialsStudent;
+export default SignUpUserCredentialsVisitor;
 
 const styles = StyleSheet.create({
 	header: {
 		width: "100%",
 		height: "20%",
-
 		justifyContent: "center",
 		alignItems: "center",
 		alignContent: "center",
@@ -253,6 +298,13 @@ const styles = StyleSheet.create({
 		width: "80%",
 		textAlign: "left",
 	},
+	errorMessage: {
+		alignSelf: "center",
+		width: "80%",
+		textAlign: "left",
+		color: "red",
+	},
+
 	button: {
 		backgroundColor: "#28CD41",
 		padding: 10,
@@ -277,8 +329,94 @@ const styles = StyleSheet.create({
 		color: "#ffff",
 	},
 	input: {
-		margin: 5,
+		marginTop: 5,
+		marginBottom: 5,
+		marginLeft: 0,
+		marginRight: 0,
 		width: "80%",
+		height: 50,
+		borderColor: "#28CD41",
+		paddingHorizontal: 15,
+		borderWidth: 1,
+		borderRadius: 10,
+		overflow: "hidden",
+		paddingVertical: 1,
+		fontSize: 16,
+		color: "#4d7861",
+		backgroundColor: "#ffff",
+	},
+	suffixInput: {
+		marginTop: 5,
+		marginBottom: 5,
+		marginLeft: 0,
+		marginRight: 0,
+		width: "95%",
+		height: 50,
+		borderColor: "#28CD41",
+		paddingHorizontal: 15,
+		borderWidth: 1,
+		borderRadius: 10,
+		overflow: "hidden",
+		paddingVertical: 1,
+		fontSize: 16,
+		color: "#4d7861",
+		backgroundColor: "#ffff",
+	},
+	genderInput: {
+		marginTop: 5,
+		marginBottom: 5,
+		marginLeft: 0,
+		marginRight: 0,
+		width: "100%",
+		height: 50,
+		borderColor: "#28CD41",
+		paddingHorizontal: 15,
+		borderWidth: 1,
+		borderRadius: 10,
+		overflow: "hidden",
+		paddingVertical: 1,
+		fontSize: 16,
+		color: "#4d7861",
+		backgroundColor: "#ffff",
+	},
+
+	courseInput: {
+		marginTop: 5,
+		marginBottom: 5,
+		marginLeft: 0,
+		marginRight: 0,
+		width: "95%",
+		height: 50,
+		borderColor: "#28CD41",
+		paddingHorizontal: 15,
+		borderWidth: 1,
+		borderRadius: 10,
+		overflow: "hidden",
+		paddingVertical: 1,
+		fontSize: 16,
+		color: "#4d7861",
+		backgroundColor: "#ffff",
+	},
+	yearAndSectionInput: {
+		marginTop: 5,
+		marginBottom: 5,
+		marginLeft: 0,
+		marginRight: 0,
+		width: "100%",
+		height: 50,
+		borderColor: "#28CD41",
+		paddingHorizontal: 15,
+		borderWidth: 1,
+		borderRadius: 10,
+		overflow: "hidden",
+		paddingVertical: 1,
+		fontSize: 16,
+		color: "#4d7861",
+		backgroundColor: "#ffff",
+	},
+	dobInput: {
+		margin: 5,
+		width: "70%",
 		height: 50,
 		borderColor: "#28CD41",
 		paddingHorizontal: 15,

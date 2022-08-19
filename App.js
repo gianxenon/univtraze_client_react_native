@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { Text, View, Button } from 'react-native';
-import styled from 'styled-components'
+import { ToastProvider } from 'react-native-toast-notifications'
 import SplashScreen from './Components/SplashScreen';
 import HomeScreen from './Components/HomeScreen';
 import Login from './Components/Login';
@@ -15,31 +13,30 @@ import SignUpUserCredentialsStudent from './Components/SignUpUserCredentialsStud
 import QrScanner from './Components/QrScanner';
 import ReportCovidCase from './Components/ReportCovidCase'
 import ReportEmergency from './Components/ReportEmergency'
-import ApiTester from './Components/ApiTester'
 import SignUpUserCredentialsEmployee from './Components/SignUpUserCredentialsEmployee';
 import SignUpUserCredentialsVisitor from './Components/SignUpUserCredentialsVisitor';
 import DailyAsessment from './Components/DailyAsessment';
-import SignStudPartTwo from './Components/SignStudPartTwo';
-import SignStudPartThree from './Components/SignStudPartThree';
-import SignEmpPartTwo from './Components/SignEmpPartTwo';
-import SignEmpPartThree from './Components/SignEmpPartThree';
 import RoomVisited from './Components/RoomVisited';
-import SignVisPartTwo from './Components/SignVisPartTwo';
+import TemperatureHistory from './Components/TemperatureHistory';
+import SignUpCredentialsDocuments from './Components/SignUpCredentialsDocuments';
+import SignUpVaccination from './Components/SignUpVaccination';
+import ForgotPassword from './Components/ForgotPassword'
+import ResetPassword from './Components/ResetPassword';
+import TermsAndConditions from './Components/TermsAndConditions';
+import AccountSettings from './Components/AccountSettings';
+import UpdatePassword from './Components/UpdatePassword';
+import UpdatePersonalInfo from './Components/UpdatePersonalInfo';
 export default function App() {
 
   const Stack = createNativeStackNavigator();
 
   return (
+    <ToastProvider>
     <AuthProvider>
       <NavigationContainer>
-
-        <Stack.Navigator initialRouteName='Login'>
-          <Stack.Screen options={{ headerShown: false }} name="SignVisPartTwo" component={SignVisPartTwo} />
+        <Stack.Navigator initialRouteName='Home'>
+          <Stack.Screen options={{ headerShown: false }} name="SignUpCredentialsDocuments" component={SignUpCredentialsDocuments} />
           <Stack.Screen options={{ headerShown: false }} name="RoomVisited" component={RoomVisited} />
-          <Stack.Screen options={{ headerShown: false }} name="SignEmpPartThree" component={SignEmpPartThree} />
-          <Stack.Screen options={{ headerShown: false }} name="SignEmpPartTwo" component={SignEmpPartTwo} />
-          <Stack.Screen options={{ headerShown: false }} name="SignStudPartThree" component={SignStudPartThree} />
-          <Stack.Screen options={{ headerShown: false }} name="SignStudPartTwo" component={SignStudPartTwo} />
           <Stack.Screen options={{ headerShown: false }} name="DailyAsessment" component={DailyAsessment} />
           <Stack.Screen options={{ headerShown: false }} name="ReportEmergency" component={ReportEmergency} />
           <Stack.Screen options={{ headerShown: false }} name="ReportCovidCase" component={ReportCovidCase} />
@@ -49,13 +46,21 @@ export default function App() {
           <Stack.Screen options={{ headerShown: false }} name="SignUpUserCredentialsVisitor" component={SignUpUserCredentialsVisitor} />
           <Stack.Screen options={{ headerShown: false }} name="SignUpUserType" component={SignUpUserType} />
           <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
+          <Stack.Screen options={{ headerShown: false }} name="SignUpVaccination" component={SignUpVaccination} />
           <Stack.Screen options={{ headerShown: false }} name="Dashboard" component={Dashboard} />
+          <Stack.Screen options={{ headerShown: false }} name="TemperatureHistory" component={TemperatureHistory} />
           <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
           <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
-          <Stack.Screen options={{ headerShown: false }} name="SplashScreen" component={SplashScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="ForgotPassword" component={ForgotPassword } />
+          <Stack.Screen options={{ headerShown: false }} name="ResetPassword" component={ResetPassword } />
+          <Stack.Screen options={{ headerShown: false }} name="TermsAndCondition" component={TermsAndConditions } />
+          <Stack.Screen options={{ headerShown: false }} name="AccountSettings" component={AccountSettings} />
+          <Stack.Screen options={{ headerShown: false }} name="UpdatePassword" component={UpdatePassword} />
+          <Stack.Screen options={{ headerShown: false }} name="UpdatePersonalInfo" component={UpdatePersonalInfo} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
+    </ToastProvider>
   );
 }
 
